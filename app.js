@@ -2,7 +2,6 @@
 var path = require('path');
 var express = require('express');
 var cookieParser = require('cookie-parser');
-var taobaostatus = require('taobaostatus');
 var config = require('./config');
 var routes = require('./routes');
 var nunjucks = require('nunjucks');
@@ -17,6 +16,8 @@ var env = nunjucks.configure('views', {
 nunjucks.precompile(path.normalize(__dirname +'/views'), { env: env, include:[/./] });
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+env.express(app);
 app.set('view cache', config.viewCache);
 app.disable('x-powered-by');
 
