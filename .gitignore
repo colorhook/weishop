@@ -1,0 +1,10 @@
+node_modules/
+*.psd
+*.exe
+*.log
+*.map
+.DS_Store
+nohup.out
+.tmp
+.project
+.idea
