@@ -28,9 +28,9 @@ module.exports = function(app){
   });
   
   app.all(['/admin', '/admin/*'], function(req, res, next) {
-    if(req.session.admin){
+    //if(req.session.admin){
       return next();
-    }
+    //}
     res.redirect('/admin/login?redirect='+req.url);
   });
   
@@ -43,8 +43,15 @@ module.exports = function(app){
   
   
   app.get('/admin/admin', function(req, res){
+    adminController.getAdmins(function(err, data){
+      res.render('admin/admin.html', {
+        data: data
+      });
+    });
   });
   app.get('/admin/admin/add', function(req, res){
+    adminController.addAdmin();
+    res.end('s');
   });
   app.post('/admin/admin/add', function(req, res){
   });

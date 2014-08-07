@@ -2,7 +2,8 @@
 var path = require('path');
 var express = require('express');
 var cookieParser = require('cookie-parser');
-var session = require('express-session')
+var session = require('express-session');
+var database = require('./model/database');
 var config = require('./config');
 var routes = require('./routes');
 var nunjucks = require('nunjucks');
@@ -13,7 +14,6 @@ app.locals.pretty = false;
 var env = nunjucks.configure('views', {
   autoescape: true
 });
-
 nunjucks.precompile(path.normalize(__dirname +'/views'), { env: env, include:[/./] });
 
 app.use(express.static(path.join(__dirname, 'public')));
