@@ -2,6 +2,7 @@
 var path = require('path');
 var express = require('express');
 var cookieParser = require('cookie-parser');
+var session = require('express-session')
 var config = require('./config');
 var routes = require('./routes');
 var nunjucks = require('nunjucks');
@@ -21,7 +22,7 @@ env.express(app);
 app.set('view cache', config.viewCache);
 app.disable('x-powered-by');
 
-app.use(cookieParser()).use(function(err, req, res, next) {
+app.use(cookieParser()).use(session({secret:'weishop'})).use(function(err, req, res, next) {
   res.json(err);
   console.error('[%s][%s] Express handle exception: [%s]', new Date(), process.pid, err);
 });
