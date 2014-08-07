@@ -7,28 +7,34 @@
 {% block head %}{% endblock %}
 </head>
 <body>
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="span12">
-			<ul class="nav nav-pills">
-				<li{% if nav == "shop" %} class="active"{% endif %}>
-					<a href="/admin/shop">店铺</a>
-				</li>
-				<li{% if nav == "member" %} class="active"{% endif %}>
-					<a href="/admin/member">会员</a>
-				</li>
-				<li{% if nav == "template" %} class="active"{% endif %}>
-					<a href="/admin/template">模板</a>
-				</li>
-                <li{% if nav == "admin" %} class="active"{% endif %}>
-					<a href="/admin/admin">权限</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-</div>
+<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/admin" class="navbar-brand">Weishop</a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        <li{% if nav == "shop" %} class="active"{% endif %}>
+            <a href="/admin/shop">店铺管理</a>
+        </li>
+        <li{% if nav == "template" %} class="active"{% endif %}>
+            <a href="/admin/template">模板管理</a>
+        </li>
+        <li{% if nav == "admin" %} class="active"{% endif %}>
+            <a href="/admin/admin">系统管理</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/admin/admin">{{admin.username}}</a></li>
+        <li><a href="/admin/logout">登出</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<section class="container">
 {% block body %}
 {% endblock %}
+</section>
 <script src="/lib/jquery/jquery.js"></script>
 <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
 {% block script %}

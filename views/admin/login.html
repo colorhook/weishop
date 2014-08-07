@@ -7,39 +7,42 @@
 {% block head %}{% endblock %}
 </head>
 <body>
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="span12">
-            
-            {% if loginError %}
-            <div class="alert">
-				<button type="button" class="close" data-dismiss="alert">×</button>
-				<strong>警告!</strong> 请注意你的个人隐私安全.
-			</div>
-            {% endif %}
-          
-			<form class="form-horizontal" action="/admin/login" method="post">
-				<div class="control-group">
-					 <label class="control-label" for="inputUsername">用户名</label>
-					<div class="controls">
-						<input id="inputUsername" name="username" type="text" />
-					</div>
-				</div>
-				<div class="control-group">
-					 <label class="control-label" for="inputPassword">密码</label>
-					<div class="controls">
-						<input id="inputPassword" name="password" type="password" />
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="controls">
-						 <label class="checkbox"><input type="checkbox" /> 记住我</label> <button type="submit" class="btn">登陆</button>
-					</div>
-				</div>
-			</form>
-          
-		</div>
-	</div>
-</div>
+  
+<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/admin" class="navbar-brand">Weishop</a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+    </nav>
+  </div>
+</header>
+<section class="container">
+  
+  {% if loginError %}
+  <div class="alert">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <strong>警告!</strong> 请输入正确的用户名和密码.
+  </div>
+  {% endif %}
+  
+  
+  <form role="form" action="/admin/login" method="post" style="width:400px">
+    <div class="form-group">
+        <label for="inputUsername">用户名</label>
+        <input class="form-control" id="inputUsername" name="username" type="text" />
+    </div>
+    <div class="form-group">
+        <label class="control-label" for="inputPassword">密码</label>
+        <input class="form-control" id="inputPassword" name="password" type="password" />
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox"> 记住我
+      </label>
+    </div>
+    <button type="submit" class="btn btn-default">登录</button>
+  </form>
+</section>
 </body>
 </html>

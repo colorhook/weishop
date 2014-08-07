@@ -1,40 +1,64 @@
-var restful = require('node-restful');
-var mongoose = restful.mongoose;
-var Schema = mongoose.Schema;
+var mongoose = require('mongoose');
 
 mongoose.connect("mongodb://zmzp.cn/weishop");
 
-var Admin = mongoose.model('Admin', {
-  username: 'string',
-  password: 'string',
-  role: 'string',
-  regTime: 'number'
+var AdminSchema = new mongoose.Schema({
+  username: String,
+  password: String,
+  role: {
+    key: Number,
+    value: String
+  },
+  time: {type: Date, default: Date.now}
 });
 
-var Log = mongoose.model('Log', {
-  username: 'string',
-  category: 'string',
-  action: 'string',
-  time: 'number'
+var Admin = mongoose.model('Admin', AdminSchema);
+
+var Operation = mongoose.model('Operation', {
+  username: String,
+  ip: String,
+  action: String,
+  time: {type: Date, default: Date.now}
 });
 
-
-var Member = mongoose.model('Member', {
-  username: 'string',
-  companey: 'string',
-  address: 'string',
-  tel: 'string',
-  level: 'number'
+var Shop = mongoose.model('Shop', {
+  name: String,
+  weixin: String,
+  customer: String,
+  tel: String,
+  location: {
+    longitude: Number,
+    latitude: Number,
+    address: String
+  },
+  company: String,
+  time: {type: Date, default: Date.now},
+  price: Number,
+  level: String,
+  template: String,
+  note: String
 });
 
-
+var Role = {
+  data: ['报告员', '业务员', '管理员', '超级管理员'],
+  create: function(v){
+    return {
+      key: v,
+      value: this.data[v]
+    }
+  },
+  all: function(){
+    var result = [];
+    this.data.forEach(function(item, index){
+      result.push({
+        key: index, value: item
+      });
+    });
+    return result;
+  }
+}
 exports.Admin = Admin;
-exports.Log = Log;
-exports.Member = Member;
-
-//exports.route = function(app){
-//  Admin.register(app, '/api/admin');
-//  Member.register(app, '/admin/api/member');
-//  Log.register(app, '/admin/api/log');
-//}
+exports.Operation = Operation;
+exports.Shop = Shop;
+exports.Role = Role;
                            
