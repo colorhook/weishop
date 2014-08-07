@@ -1,6 +1,8 @@
 'use strict';
 var config = require('./config');
 var adminController = require('./controller/adminController');
+var memberController = require('./controller/memberController');
+var templateController = require('./controller/templateController');
 
 module.exports = function(app){
 
@@ -12,14 +14,24 @@ module.exports = function(app){
   
   app.get('/admin/login', function(req, res) {
     res.render('admin/login.html', {
-      title: 'weishop - 登录'
+      loginError: req.session.loginError
     });
   }).post('/admin/login', function(req, res){
-    var isUser = adminController.login(username, password);
-    if(isUser){
-      req.session.admin = username;
-      return res.redirect('/admin');
-    }
+    var username = req.param('username');
+    var password = req.param('password');
+    console.log(req);
+    adminController.login({
+      username: username, 
+      password: password
+    }, function(err){
+      if(err){
+        req.session.loginError = true;
+        return res.redirect('/admin/login');
+      }else{
+        delete req.session.loginError;
+        return res.redirect('/admin');
+      }
+    });
   });
   
   app.get('/admin/logout', function(req, res){
@@ -28,9 +40,9 @@ module.exports = function(app){
   });
   
   app.all(['/admin', '/admin/*'], function(req, res, next) {
-    //if(req.session.admin){
+    if(req.session.admin){
       return next();
-    //}
+    }
     res.redirect('/admin/login?redirect='+req.url);
   });
   
@@ -42,34 +54,12 @@ module.exports = function(app){
   
   
   
-  app.get('/admin/admin', function(req, res){
-    adminController.getAdmins(function(err, data){
-      res.render('admin/admin.html', {
-        data: data
-      });
-    });
-  });
-  app.get('/admin/admin/add', function(req, res){
-    adminController.addAdmin();
-    res.end('s');
-  });
-  app.post('/admin/admin/add', function(req, res){
-  });
-  app.get('/admin/admin/:id', function(req, res){
-  });
-  app.post('/admin/admin/:id', function(req, res){
-  });
+  app.get('/admin/admin', adminController.index);
+  app.post('/admin/admin/add', adminController.add);
+  //app.get('/admin/admin/:id', adminController.get);
   
-  app.get('/admin/member', function(req, res){
-  });
-  app.get('/admin/member/add', function(req, res){
-  });
-  app.post('/admin/member/add', function(req, res){
-  });
-  app.get('/admin/member/:id', function(req, res){
-  });
-  app.post('/admin/member/:id', function(req, res){
-  });
+  app.get('/admin/member', memberController.index);
+  app.get('/admin/template', templateController.index);
   
   app.get('/admin/shop', function(req, res){
   });

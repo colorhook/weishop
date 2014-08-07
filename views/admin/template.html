@@ -4,21 +4,18 @@
   <thead>
       <tr>
         <th>ID</th>
-        <th>用户名</th>
-        <th>角色</th>
-        <th>注册时间</th>
+        <th>名称</th>
+        <th>套餐价格</th>
         <th>操作</th>
       </tr>
   </thead>
   <tbody>
-      {% for item in users %}
+      {% for item in list %}
       <tr>
         <th>{{item.id}}</th>
-        <th>{{item.username}}</th>
-        <th>{{item.role}}</th>
-        <th>{{item.regTime}}</th>
-        <th>
-        </th>
+        <th>{{item.name}}</th>
+        <th>{{item.price}}</th>
+        <th><a href="/admin/preview/{{item.id}}" target="_blank">预览</a></th>
       </tr>
       {% endfor %}
   </tbody>

@@ -1,6 +1,7 @@
 'use strict';
 var path = require('path');
 var express = require('express');
+var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var database = require('./model/database');
@@ -22,7 +23,11 @@ env.express(app);
 app.set('view cache', config.viewCache);
 app.disable('x-powered-by');
 
-app.use(cookieParser()).use(session({secret:'weishop'})).use(function(err, req, res, next) {
+app
+.use(bodyParser())
+.use(cookieParser())
+.use(session({secret:'weishop'}))
+.use(function(err, req, res, next) {
   res.json(err);
   console.error('[%s][%s] Express handle exception: [%s]', new Date(), process.pid, err);
 });

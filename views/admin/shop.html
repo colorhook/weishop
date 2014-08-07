@@ -1,0 +1,30 @@
+{% extends "admin/base.html" %}
+{% block body %}
+<table class="table table-bordered">
+  <thead>
+      <tr>
+        <th>ID</th>
+        <th>名称</th>
+        <th>套餐类型</th>
+        <th>套餐价格</th>
+        <th>备注</th>
+        <th>操作</th>
+      </tr>
+  </thead>
+  <tbody>
+      {% for item in list %}
+      <tr>
+        <th>{{item.id}}</th>
+        <th>{{item.name}}</th>
+        <th>{{item.type}}</th>
+        <th>{{item.price}}</th>
+        <th>{{item.note}}</th>
+        <th>
+          <a href="/admin/shop/{{item.id}}" target="_blank">详情</a>
+          <a href="/admin/shop/edit/{{item.id}}" target="_blank">编辑</a>
+        </th>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

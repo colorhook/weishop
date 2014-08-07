@@ -8,7 +8,7 @@ var Admin = mongoose.model('Admin', {
   username: 'string',
   password: 'string',
   role: 'string',
-  time: 'number'
+  regTime: 'number'
 });
 
 var Log = mongoose.model('Log', {

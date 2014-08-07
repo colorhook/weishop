@@ -1,10 +1,19 @@
 var database = require('../model/database');
 
-exports.login = function(username, password, callback){
-  if(username === 'admin'){
+
+exports.index = function(req, res){
+  if(options.username === 'admin'){
     return callback(null);
   }
   return callback('username is error');
+}
+
+exports.login = function(req, res){
+  
+}
+
+exports.add = function(req, res){
+  
 }
 
 

@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='utf-8'>
+<title>{{title}}</title>
+<link rel='stylesheet' href='/lib/bootstrap/css/bootstrap.min.css'>
+{% block head %}{% endblock %}
+</head>
+<body>
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<ul class="nav nav-pills">
+				<li{% if nav == "shop" %} class="active"{% endif %}>
+					<a href="/admin/shop">店铺</a>
+				</li>
+				<li{% if nav == "member" %} class="active"{% endif %}>
+					<a href="/admin/member">会员</a>
+				</li>
+				<li{% if nav == "template" %} class="active"{% endif %}>
+					<a href="/admin/template">模板</a>
+				</li>
+                <li{% if nav == "admin" %} class="active"{% endif %}>
+					<a href="/admin/admin">权限</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+{% block body %}
+{% endblock %}
+<script src="/lib/jquery/jquery.js"></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+{% block script %}
+{% endblock %}
+</body>
+</html>
