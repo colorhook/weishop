@@ -1,3 +1,3 @@
-document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+document.addEventListener('WeixinJSBridgeReady', function{
 	WeixinJSBridge.call('hideToolbar');
 });
