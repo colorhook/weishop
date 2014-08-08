@@ -32,8 +32,9 @@ module.exports = function(app){
   });
    
   app.get('/admin/admin', adminController.index);
+  app.post('/admin/admin/delete', adminController.delete);
   app.post('/admin/admin/add', adminController.add);
-  //app.get('/admin/admin/:id', adminController.get);
+  app.post('/admin/admin/edit', adminController.edit);
   
   app.get('/admin/member', memberController.index);
   app.get('/admin/template', templateController.index);

@@ -5,6 +5,7 @@ var moment = require('moment');
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var flash = require('connect-flash');
 var config = require('./config');
 var routes = require('./routes');
 var nunjucks = require('nunjucks');
@@ -44,6 +45,7 @@ app
 .use(bodyParser.urlencoded({extended:true}))
 .use(cookieParser())
 .use(session({secret:'weishop'}))
+.use(flash())
 .use(function(err, req, res, next) {
   res.json(err);
   console.error('[%s][%s] Express handle exception: [%s]', new Date(), process.pid, err);

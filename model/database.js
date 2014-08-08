@@ -5,6 +5,8 @@ mongoose.connect("mongodb://zmzp.cn/weishop");
 var AdminSchema = new mongoose.Schema({
   username: String,
   password: String,
+  sid: {type: String, default: ''},
+  loginTime: {type: Date},
   role: {
     key: Number,
     value: String
@@ -47,12 +49,16 @@ var Role = {
       value: this.data[v]
     }
   },
-  all: function(){
+  all: function(maxKey){
     var result = [];
     this.data.forEach(function(item, index){
-      result.push({
-        key: index, value: item
-      });
+      if(maxKey != null){
+        if(maxKey >= index){
+          result.push({key: index, value: item});
+        }
+      }else{
+        result.push({key: index, value: item});
+      }
     });
     return result;
   }

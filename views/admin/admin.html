@@ -3,42 +3,123 @@
 {% block body %}
 
 {% if admin.role.key == 3 %}
+
+{% if addInfo and addInfo != "" %}
+<div class="alert alert-danger alert-dismissible fade in" role="alert">
+  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+  <h4>出错了</h4>
+  <p>{{ addInfo }}</p>
+</div>
+{% endif %}
+
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">增加管理员</h3>
+    <h3 class="panel-title">增加管理人员</h3>
   </div>
   <div class="panel-body">
-    <form class="form-inline" role="form" method="post" action="/admin/admin/">
+    <form class="form-inline" role="form" method="post" action="/admin/admin/add">
       <div class="form-group">
         <label for="J_admin_user">用户名：</label>
         <input name="username" type="text" class="form-control" id="J_admin_user" placeholder="输入用户名">
       </div>
-      <div class="form-group">
+      <div class="form-group" style="padding-left:20px">
         <label for="J_admin_pass">密码：</label>
-        <input name="password" type="text" class="form-control" id="J_admin_pass" placeholder="输入密码">
+        <input name="password1" type="text" class="form-control" id="J_admin_pass" placeholder="输入密码">
       </div>
       <div class="form-group">
         <label class="sr-only" for="J_admin_pass2">确认密码</label>
         <input name="password2" type="text" class="form-control" id="J_admin_pass2" placeholder="再次输入密码">
       </div>
-      <div class="form-group">
+      <div class="form-group" style="padding-left:20px">
         <label or="J_admin_role">角色：</label>
-        <select id="J_admin_role">
+        <select id="J_admin_role" name="role">
           {% for role in roles %}
           <option value="{{role.key}}">{{role.value}}</option>
           {% endfor %}
         </select>
       </div>
-      <button type="submit" class="btn btn-default">增加</button>
+      <button style="margin-left:40px" type="submit" class="btn btn-default">增加</button>
     </form>
   </div>
 </div>
 {% endif %}
 
+{% if info and info != "" %}
+<div class="alert alert-danger alert-dismissible fade in" role="alert">
+  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+  <h4>出错了</h4>
+  <p>{{ info }}</p>
+</div>
+{% endif %}
+<!-- Remove Modal -->
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel" aria-hidden="true">
+  <form method="post" action="/admin/admin/delete">
+    <input class="id" name="id" type="hidden"/>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="myModalLabel">删除管理人员</h4>
+        </div>
+        <div class="modal-body">
+          <p>该操作将永久删除管理人员信息，确认要继续执行？</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary btn-submit">确定删除</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <form method="post" action="/admin/admin/edit">
+    <input class="id" name="id" type="hidden"/>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title" id="myModalLabel">编辑</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+          <label for="J_edit_user">用户名：</label>
+          <input name="username" type="text" class="form-control" id="J_edit_user" placeholder="输入用户名">
+        </div>
+        <div class="form-group">
+          <label for="J_edit_old_pass">旧密码：</label>
+          <input name="passwordOld" type="text" class="form-control input-reset" id="J_edit_old_pass" placeholder="输入旧密码">
+        </div>
+        <div class="form-group">
+          <label for="J_edit_new_pass1">新密码：</label>
+          <input name="password1" type="text" class="form-control input-reset" id="J_edit_new_pass1" placeholder="输入新密码">
+        </div>
+        <div class="form-group">
+          <label class="sr-only" for="J_edit_new_pass2">确认新密码</label>
+          <input name="password2" type="text" class="form-control input-reset" id="J_edit_new_pass2" placeholder="再次输入新密码">
+        </div>
+        <div class="form-group">
+          <label for="J_edit_role">角色：</label>
+          <select id="J_edit_role" name="role">
+            {% for role in roles %}
+            <option value="{{role.key}}">{{role.value}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary btn-submit">修改</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
 <!-- list -->
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">管理员列表</h3>
+    <h3 class="panel-title">管理人员列表</h3>
   </div>
   <div class="panel-body">
     <table class="table table-bordered">
@@ -46,19 +127,23 @@
           <tr>
             <th>用户名</th>
             <th>角色</th>
+            <th>最近登录时间</th>
             <th>注册时间</th>
             <th>操作</th>
           </tr>
       </thead>
       <tbody>
           {% for item in users %}
-          <tr data-id="{{item._id}}">
+          <tr data-id="{{item._id}}"  data-username="{{item.username}}"  data-role-key="{{item.role.key}}">
             <th>{{item.username}}</th>
             <th>{{item.role.value}}</th>
+            <th>{{item.loginTime|time}}</th>
             <th>{{item.time|time}}</th>
             <th>
-              {% if admin.role.key == 3 %}
+              {% if admin.role.key == 3 or admin.username == item.username %}
               <a href="#" class="modify">修改</a>
+              {% endif %}
+              {% if admin.role.key >= 2 or admin.username == item.username %}
               <a href="#" class="delete">删除</a>
               {% endif %}
             </th>
@@ -66,14 +151,31 @@
           {% endfor %}
       </tbody>
     </table>
-    
-    <ul class="pagination">
-      <li class="disabled"><a href="#">&laquo;</a></li>
-      <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-      ...
-    </ul>
   </div>
 </div>
- 
+{% endblock %}
 
+{% block script %}
+<script>
+$(function(){
+  var removeModal = $("#removeModal");
+  var editModal = $("#editModal");
+  var editUserEl = $("#J_edit_user");
+  var editRoleEl = $("#J_edit_role");
+  $(".table").delegate(".modify", "click", function(e){
+    e.preventDefault();
+    var $tr = $(e.currentTarget).parents('tr');
+    editModal.find(".id").val($tr.attr('data-id'));
+    editModal.find(".input-reset").val("");
+    editUserEl.val($tr.attr('data-username'));
+    editRoleEl.val($tr.attr('data-role-key'));
+    editModal.modal();
+  });
+  $(".table").delegate(".delete", "click", function(e){
+    e.preventDefault();
+    removeModal.find(".id").val($(e.currentTarget).parents('tr').attr('data-id'));
+    removeModal.modal();
+  });
+});
+</script>
 {% endblock %}
