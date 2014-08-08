@@ -8,7 +8,7 @@
 {% endif %}
 </h2>
 <script type="text/data">
-{{templates}}
+{{templates|json|safe}}
 </script>
 <div class="shop-edit">
   <form id="J_form" action="/admin/shop/" method="post">

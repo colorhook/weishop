@@ -1,6 +1,7 @@
 'use strict';
 var path = require('path');
 var express = require('express');
+var moment = require('moment');
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
@@ -21,6 +22,18 @@ app.disable('x-powered-by');
 //template
 var env = nunjucks.configure('views', {
   autoescape: true
+});
+env.addFilter('json', function(input){
+  if(!input){
+    return "";
+  }
+  return JSON.stringify(input);
+});
+env.addFilter('time', function(input, format){
+  if(!input){
+    return "";
+  }
+  return moment(input).format(format || "YYYY-MM-DD HH:mm:ss");
 });
 nunjucks.precompile(path.normalize(__dirname +'/views'), { env: env, include:[/./] });
 env.express(app);

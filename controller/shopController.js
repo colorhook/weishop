@@ -7,7 +7,14 @@ exports.index = function(req, res){
 
 exports.add = function(req, res){
   res.render('admin/shop-edit.html', {
-    mode: 'add'
+    mode: 'add',
+    templates:{
+      'normal': [
+        {key: 'simple', value: '简约'}
+      ],
+      'advanced': [
+      ]
+    }
   });
 }
 

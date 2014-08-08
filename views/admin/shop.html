@@ -1,30 +1,45 @@
 {% extends "admin/base.html" %}
 {% block body %}
-<table class="table table-bordered">
-  <thead>
-      <tr>
-        <th>ID</th>
-        <th>名称</th>
-        <th>套餐类型</th>
-        <th>套餐价格</th>
-        <th>备注</th>
-        <th>操作</th>
-      </tr>
-  </thead>
-  <tbody>
-      {% for item in list %}
-      <tr>
-        <th>{{item.id}}</th>
-        <th>{{item.name}}</th>
-        <th>{{item.type}}</th>
-        <th>{{item.price}}</th>
-        <th>{{item.note}}</th>
-        <th>
-          <a href="/admin/shop/{{item.id}}" target="_blank">详情</a>
-          <a href="/admin/shop/edit/{{item.id}}" target="_blank">编辑</a>
-        </th>
-      </tr>
-      {% endfor %}
-  </tbody>
-</table>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">店铺列表</h3>
+  </div>
+  <div class="panel-body">
+    <table class="table table-bordered">
+      <thead>
+          <tr>
+            <th>名称</th>
+            <th>套餐类型</th>
+            <th>套餐价格</th>
+            <th>创建者</th>
+            <th>操作</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for item in list %}
+          <tr>
+            <th>{{item.name}}</th>
+            <th>{{item.type}}</th>
+            <th>{{item.price}}</th>
+            <th>{{item.creator}}</th>
+            <th>
+              <a href="/admin/shop/{{item.id}}" target="_blank">详情</a>
+              <a href="/admin/shop/edit/{{item.id}}" target="_blank">编辑</a>
+            </th>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+    
+    
+    <ul class="pagination">
+      <li class="disabled"><a href="#">&laquo;</a></li>
+      <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+      ...
+    </ul>
+    
+  </div>
+ 
+    
+</div>
 {% endblock %}
