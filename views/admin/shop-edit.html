@@ -1,68 +1,80 @@
 {% extends "admin/base.html" %}
 {% block body %}
-<h2>
-{% if mode == "add" %}
-增加店铺
-{% else %}
-修改店铺
-{% endif %}
-</h2>
 <script type="text/data">
 {{templates|json|safe}}
 </script>
-<div class="shop-edit">
-  <form id="J_form" action="/admin/shop/" method="post">
-    <input type="hidden" name="mode" value="{{mode}}"/>
-    <div class="item">
-      <label for="J_shop_name">店铺名称：</label>
-      <input id="J_shop_name" type="text" name="name" value="{{name}}"/>
-    </div>
-    <div class="item">
-      <label for="J_shop_weixin">微信号；</label>
-      <input id="J_shop_weixin" type="text" name="weixin" value="{{weixin}}"/>
-    </div>
-    <div class="item">
-      <label for="J_shop_level">套餐类型；</label>
-      <select name="level" value="{{level}}">
-        {% for item in shopTypes %}
-        <option value="{{item.key}}">{{item.value}}</option>
-        {% endfor %}
-      </select>
-    </div>
-    <div class="item">
-      <label for="J_shop_template">店铺模板：</label>
-      {% if template %}
-      <select name="template" value="{{template}}"  data-template="{{template}}">
-        {% for item in templates[template] %}
-        <option value="{{item.key}}">{{item.value}}</option>
-        {% endfor %}
-      </select>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      {% if mode == "add" %}
+      新增店铺
       {% else %}
-      <select name="template">
-        <option>请选择...</option>
-      </select>
+      修改店铺
       {% endif %}
-    </div>
-    <div class="item">
-      <label for="J_shop_price">价格：</label>
-      <input id="J_shop_price" type="text" name="price" value="{{price}}"/>
-    </div>
-    <div class="item">
-      <label for="J_shop_company">公司：</label>
-      <input id="J_shop_company" type="text" name="company" value="{{company}}"/>
-    </div>
-    <div class="item">
-      <label for="J_shop_address">地址：</label>
-      <input id="J_shop_address" type="text" name="address" value="{{address}}"/>
-    </div>
-    <div class="item">
-      <label for="J_shop_note">备注：</label>
-      <textarea id="J_shop_note">{{note}}</textarea>
-    </div>
-    <div class="item">
-      <button type="submit" class="submite">确定</button>
-      <button href="javascripte:location.reload()" class="cancel" type="reset">取消</button>
-    </div>
-  </form>
+    </h3>
+  </div>
+  <div class="panel-body">
+    <form role="form" action="/admin/shop/add" method="post">
+      <input type="hidden" name="mode" value="{{mode}}"/>
+      <div class="form-group">
+        <label for="J_shop_name">店铺名称：</label>
+        <input id="J_shop_name" class="form-control" type="text" name="name" value="{{name}}" placeholder="输入店铺名称"/>
+      </div>
+      <div class="form-group">
+        <label for="J_shop_url">店铺网址：</label>
+        <input id="J_shop_url" class="form-control" type="text" name="name" value="{{name}}" placeholder="输入店铺名称"/>
+      </div>
+      <div class="form-group">
+        <label for="J_shop_weixin">微信号：</label>
+        <input id="J_shop_weixin" class="form-control" type="text" name="weixin" value="{{weixin}}"/>
+      </div>
+      <div class="form-group">
+        <label for="J_shop_customer">联系人：</label>
+        <input id="J_shop_customer" class="form-control" type="text" name="tel" value="{{tel}}"/>
+      </div>
+      <div class="form-group">
+        <label for="J_shop_tel">电话：</label>
+        <input id="J_shop_tel" class="form-control" type="text" name="tel" value="{{tel}}"/>
+      </div>
+      <div class="form-group">
+        <label for="J_shop_company">公司：</label>
+        <input id="J_shop_company" class="form-control"  type="text" name="company" value="{{company}}"/>
+      </div>
+      <div class="form-group">
+        <label for="J_shop_address">地址：</label>
+        <input id="J_shop_address" class="form-control" type="text" name="address" value="{{address}}"/>
+      </div>
+      <div class="form-group">
+        <label for="J_shop_level">套餐类型：</label>
+        <select name="level" class="selectpicker" value="{{level}}">
+          {% for item in shopTypes %}
+          <option value="{{item.key}}">{{item.value}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="J_shop_template">店铺模板：</label>
+        {% if template %}
+        <select name="template" class="selectpicker" value="{{template}}" data-template="{{template}}">
+          {% for item in templates[template] %}
+          <option value="{{item.key}}">{{item.value}}</option>
+          {% endfor %}
+        </select>
+        {% else %}
+        <select name="template" class="selectpicker">
+          <option>请选择...</option>
+        </select>
+        {% endif %}
+      </div>
+      <div class="form-group">
+        <label for="J_shop_note">备注：</label>
+        <textarea class="form-control" rows="5" id="J_shop_note">{{note}}</textarea>
+      </div>
+      <div class="form-group">
+        <a href="/admin/shop" class="btn btn-default">返回店铺列表</a>
+        <a type="submit" class="btn btn-primary">确认新增店铺</a>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}

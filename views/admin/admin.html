@@ -14,7 +14,7 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">增加管理人员</h3>
+    <h3 class="panel-title">新增管理人员</h3>
   </div>
   <div class="panel-body">
     <form class="form-inline" role="form" method="post" action="/admin/admin/add">
@@ -32,13 +32,13 @@
       </div>
       <div class="form-group" style="padding-left:20px">
         <label or="J_admin_role">角色：</label>
-        <select id="J_admin_role" name="role">
+        <select id="J_admin_role" class="selectpicker" name="role">
           {% for role in roles %}
           <option value="{{role.key}}">{{role.value}}</option>
           {% endfor %}
         </select>
       </div>
-      <button style="margin-left:40px" type="submit" class="btn btn-default">增加</button>
+      <button style="margin-left:40px" type="submit" class="btn btn-default">新增</button>
     </form>
   </div>
 </div>
@@ -84,29 +84,29 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-          <label for="J_edit_user">用户名：</label>
-          <input name="username" type="text" class="form-control" id="J_edit_user" placeholder="输入用户名">
-        </div>
-        <div class="form-group">
-          <label for="J_edit_old_pass">旧密码：</label>
-          <input name="passwordOld" type="text" class="form-control input-reset" id="J_edit_old_pass" placeholder="输入旧密码">
-        </div>
-        <div class="form-group">
-          <label for="J_edit_new_pass1">新密码：</label>
-          <input name="password1" type="text" class="form-control input-reset" id="J_edit_new_pass1" placeholder="输入新密码">
-        </div>
-        <div class="form-group">
-          <label class="sr-only" for="J_edit_new_pass2">确认新密码</label>
-          <input name="password2" type="text" class="form-control input-reset" id="J_edit_new_pass2" placeholder="再次输入新密码">
-        </div>
-        <div class="form-group">
-          <label for="J_edit_role">角色：</label>
-          <select id="J_edit_role" name="role">
-            {% for role in roles %}
-            <option value="{{role.key}}">{{role.value}}</option>
-            {% endfor %}
-          </select>
-        </div>
+            <label for="J_edit_user">用户名：</label>
+            <input name="username" type="text" class="form-control" id="J_edit_user" placeholder="输入用户名">
+          </div>
+          <div class="form-group">
+            <label for="J_edit_old_pass">旧密码：</label>
+            <input name="passwordOld" type="text" class="form-control input-reset" id="J_edit_old_pass" placeholder="输入旧密码">
+          </div>
+          <div class="form-group">
+            <label for="J_edit_new_pass1">新密码：</label>
+            <input name="password1" type="text" class="form-control input-reset" id="J_edit_new_pass1" placeholder="输入新密码">
+          </div>
+          <div class="form-group">
+            <label class="sr-only" for="J_edit_new_pass2">确认新密码</label>
+            <input name="password2" type="text" class="form-control input-reset" id="J_edit_new_pass2" placeholder="再次输入新密码">
+          </div>
+          <div class="form-group">
+            <label for="J_edit_role">角色：</label>
+            <select id="J_edit_role" class="selectpicker" name="role">
+              {% for role in roles %}
+              <option value="{{role.key}}">{{role.value}}</option>
+              {% endfor %}
+            </select>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>

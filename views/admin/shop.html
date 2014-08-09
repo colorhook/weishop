@@ -1,6 +1,11 @@
 {% extends "admin/base.html" %}
 {% block body %}
 <div class="panel panel-default">
+  <div class="panel-body">
+    <a href="/admin/shop/add" class="btn btn-primary">新增店铺</a>
+  </div>
+</div>
+<div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">店铺列表</h3>
   </div>
@@ -8,23 +13,30 @@
     <table class="table table-bordered">
       <thead>
           <tr>
-            <th>名称</th>
+            <th>店铺名称</th>
             <th>套餐类型</th>
-            <th>套餐价格</th>
+            <th>客户</th>
+            <th>电话</th>
+            <th>微信</th>
             <th>创建者</th>
             <th>操作</th>
           </tr>
       </thead>
       <tbody>
           {% for item in list %}
-          <tr>
-            <th>{{item.name}}</th>
+          <tr data-id="{{item._id}}">
+            <th><a href="{{item.url}}" target="_blank">{{item.name}}</a></th>
             <th>{{item.type}}</th>
-            <th>{{item.price}}</th>
+            <th>{{item.customer}}</th>
+            <th>{{item.tel}}</th>
+            <th>{{item.weixin}}</th>
             <th>{{item.creator}}</th>
             <th>
-              <a href="/admin/shop/{{item.id}}" target="_blank">详情</a>
-              <a href="/admin/shop/edit/{{item.id}}" target="_blank">编辑</a>
+              <a href="/admin/shop/{{item._id}}" target="_blank">详情</a>
+              <a href="/admin/shop/edit/{{item._id}}" target="_blank">编辑</a>
+              {% if admin.role.key >= 2 %}
+              <a data-id="{{item._id}}" href="#" target="_blank">删除</a>
+              {% endif %}
             </th>
           </tr>
           {% endfor %}
