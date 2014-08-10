@@ -1,1 +1,78 @@
--webkit-tap-highlight-color:rgba(0,0,0,0);
+*{-webkit-tap-highlight-color:rgba(0,0,0,0);}
+.fix-float:after{content:"\0020";display:block;height:0;clear:both}
+#header{position:relative;width:100%;overflow:hidden;}
+#slider{position: relative;}
+#slider li{width:100%;float:left;position:relative}
+#slider li img{display:block;width:100%}
+.bullets{position:absolute;width:100%;bottom:0;background: rgba(0,0,0,0.3);display:block;text-align:right;font-size:1.4em;}
+.bullets em{color: #666;}
+.bullets em.last{margin-right:0.8em}
+.bullets em.on{color:#fff}
+
+#nav ul{
+  padding-left:1em;
+}
+#nav li{
+  display:block;
+  float:left;
+  width: 50%;
+}
+#nav li a{display: block;margin-right: 0em;padding-top:1em;padding-right:1em}
+#nav li img{display:block;width:100%}
+
+#info{padding-top:20px;padding-bottom:60px;line-height: 2em;text-align: center;color: #333}
+
+#footer{
+  -webkit-transform: translate3d(0,0,0);
+  z-index: 10000;
+  position: fixed;
+  bottom:0;
+  left:0;
+  right:0;
+}
+#footer ul{
+  display: -webkit-box;
+  border-top: 1px solid #b3b3b3;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  height: 40px;
+  display: box;
+  -webkit-box-orient: horizontal;
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#e7e4e7), to(#b9b9b9));
+}
+
+#footer ul li{
+  -webkit-box-flex: 1;
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.1)), color-stop(50%, rgba(0, 0, 0, 0.2)), to(rgba(0, 0, 0, 0.2))), -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255, 255, 255, 0.1)), color-stop(50%, rgba(255, 255, 255, 0.3)), to(rgba(255, 255, 255, 0.1)));
+  -webkit-background-size: 1px 100%, 1px 100%;
+  background-size: 1px 100%, 1px 100%;
+  background-position: 1px center, 2px center;
+  background-repeat: no-repeat;
+  position: relative;
+  text-align: center;
+}
+#footer li a{
+  height: 40px;
+  line-height: 40px;
+  display: block;
+  text-align: center;
+  color: #4f4d4f;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.3);
+  text-decoration: none;
+  border-top: 1px solid #f9f9f9;
+  -webkit-box-flex: 1;
+}
+#footer li a:hover, #footer li a:active{background:#ccc}
+#footer li img{
+  padding: 0;
+  height: 20px;
+  width: 20px;
+  color: #fff;
+  line-height: 40px;
+  vertical-align: middle;
+}
+#footer li label{
+  padding: 3px 0 0 3px;
+  font-size: 12px;
+  overflow: hidden;
+}
