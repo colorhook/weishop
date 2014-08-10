@@ -16,6 +16,13 @@ var AdminSchema = new mongoose.Schema({
 
 var Admin = mongoose.model('Admin', AdminSchema);
 
+
+var Suite = mongoose.model('Suite', {
+  name: String,
+  price: Number,
+  note: String
+});
+
 var Operation = mongoose.model('Operation', {
   username: String,
   ip: String,
@@ -63,8 +70,10 @@ var Role = {
     return result;
   }
 }
+
 exports.Admin = Admin;
 exports.Operation = Operation;
+exports.Suite = Suite;
 exports.Shop = Shop;
 exports.Role = Role;
                            

@@ -5,7 +5,14 @@
 <title>{{title}}</title>
 <link rel='stylesheet' href='/lib/bootstrap/css/bootstrap.min.css'>
 <link rel='stylesheet' href='/lib/bootstrap-select/css/bootstrap-select.min.css'>
-{% block head %}{% endblock %}
+{% block head %}
+<style>
+.navbar-nav>.active>a, .navbar-nav>.active>a:hover {
+  color: #fff;
+  background-color: #428bca;
+}
+</style>  
+{% endblock %}
 </head>
 <body>
 <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
@@ -17,6 +24,9 @@
       <ul class="nav navbar-nav">
         <li{% if nav == "shop" %} class="active"{% endif %}>
             <a href="/admin/shop">店铺管理</a>
+        </li>
+        <li{% if nav == "suite" %} class="active"{% endif %}>
+            <a href="/admin/suite">套餐管理</a>
         </li>
         <li{% if nav == "template" %} class="active"{% endif %}>
             <a href="/admin/template">模板管理</a>
@@ -40,7 +50,9 @@
 <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
 <script>
-$('.selectpicker').selectpicker(); 
+$('.selectpicker').selectpicker({
+  width:'fit'
+}); 
 </script>
 {% block script %}
 {% endblock %}

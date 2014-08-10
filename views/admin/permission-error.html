@@ -1,0 +1,9 @@
+{% set title = "WeiShop - 权限不够" %}
+{% extends "admin/base.html" %}
+{% block body %}
+<div class="jumbotron">
+  <h2>权限不够</h2>
+  <p>该页面需要更高的权限才能操作，请先更换帐号！</p>
+  <p><a class="btn btn-primary btn-lg" href="/admin/logout" role="button">更换帐号</a></p>
+</div>
+{% endblock %}

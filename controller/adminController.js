@@ -69,7 +69,7 @@ exports.loginByToken = function(username, sid, callback){
 
 exports.index = function(req, res){
   var maxKey = req.session.admin.role.key;
-  database.Admin.find({}, function(err, data){
+  Admin.find({}, function(err, data){
     res.render('admin/admin.html', {
       users: data,
       addInfo: req.flash('addInfo'),
@@ -168,7 +168,7 @@ exports.edit = function(req, res){
       }
     }
     
-    $set = {
+    var $set = {
       username: username,
       role: database.Role.create(role)
     }
@@ -192,18 +192,18 @@ exports.delete = function(req, res){
   }
   if(admin.role.key < 2){
     req.flash('info', '您的级别不够，无法删除管理人员帐号');
-    return res.redirect('/admin/admin');
+    return res.redirect('/admin/permission-error');
   }
   var id = req.param('id');
   if(!id){
-    req.flash('info', '未指定需要删除的管理人员');
+    req.flash('info', '请指定需要删除的管理人员');
     return res.redirect('/admin/admin');
   }
   Admin.findById(id, function (err, user) {
     if(user){
       if(user.role.key == 3){
         req.flash('info', '该用户被锁定，您无权删除');
-        return res.redirect('/admin/admin');
+        return res.redirect('/admin/permission-error');
       }
       user.remove(function(err){
         if(err){
@@ -212,6 +212,7 @@ exports.delete = function(req, res){
         return res.redirect('/admin/admin');
       })
     }else{
+      req.flash('info', '未找到需要删除的用户');
       return res.redirect('/admin/admin');
     }
   });

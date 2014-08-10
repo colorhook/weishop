@@ -1,13 +1,9 @@
+{% set nav = "shop" %}
 {% extends "admin/base.html" %}
 {% block body %}
 <div class="panel panel-default">
-  <div class="panel-body">
-    <a href="/admin/shop/add" class="btn btn-primary">新增店铺</a>
-  </div>
-</div>
-<div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">店铺列表</h3>
+    <h3 class="panel-title">店铺列表<a style="color:#fff" href="/admin/shop/add" id="J_shop_add" class="btn btn-primary btn-xs pull-right">增加</a></h3>
   </div>
   <div class="panel-body">
     <table class="table table-bordered">
