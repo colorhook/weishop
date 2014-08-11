@@ -1,24 +1,136 @@
 {% set nav = "template" %}
 {% extends "admin/base.html" %}
+
+{% block head %}
+<style>
+#addOrEditModal .title-edit{display:none}
+#addOrEditModal.mode-edit .title-add{display:none}
+#addOrEditModal.mode-edit .title-edit{display:block}
+</style>
+{% endblock %}
+
 {% block body %}
-<table class="table table-bordered">
-  <thead>
-      <tr>
-        <th>ID</th>
-        <th>名称</th>
-        <th>套餐价格</th>
-        <th>操作</th>
-      </tr>
-  </thead>
-  <tbody>
-      {% for item in list %}
-      <tr>
-        <th>{{item.id}}</th>
-        <th>{{item.name}}</th>
-        <th>{{item.price}}</th>
-        <th><a href="/admin/preview/{{item.id}}" target="_blank">预览</a></th>
-      </tr>
-      {% endfor %}
-  </tbody>
-</table>
+
+<!-- addOrEdit Modal -->
+<div class="modal fade" id="addOrEditModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <form method="post" action="/admin/template/action">
+    <input type="hidden" class="id" name="id" value=""/>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title title-add">新增模板</h4>
+          <h4 class="modal-title title-edit">修改模板</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="J_template_name">名称：</label>
+            <input id="J_template_name" class="form-control" type="text" name="name" value="{{name}}"/>
+          </div>
+          <div class="form-group">
+            <label for="J_template_path">路径：</label>
+            <input id="J_template_path" class="form-control" type="text" name="path" value="{{path}}"/>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary btn-submit">确定</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- remove Modal -->
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <form method="post" action="/admin/template/delete">
+    <input class="id" name="id" type="hidden"/>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title">删除模板</h4>
+        </div>
+        <div class="modal-body">
+          <p>该操作将永久删除该条模板，确认要继续执行？</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary btn-submit">确定</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+{% if info and info != "" %}
+<div class="alert alert-danger alert-dismissible fade in" role="alert">
+  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+  <h4>出错了</h4>
+  <p>{{ info }}</p>
+</div>
+{% endif %}
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">模板列表<button id="J_template_add" class="btn btn-primary btn-xs pull-right">增加</button></h3>
+  </div>
+  <div class="panel-body">
+    <table class="table table-bordered">
+      <thead>
+          <tr>
+            <th>模板名称</th>
+            <th>模板路径</th>
+            <th>操作</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for item in items %}
+          <tr data-id="{{item._id}}">
+            <th class="name">{{item.name}}</th>
+            <th class="path">{{item.path}}</th>
+            <th>
+              <a href="#" class="modify">修改</a>
+              <a href="#" class="delete">删除</a>
+            </th>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+$(function(){
+  var addOrEditModal = $("#addOrEditModal");
+  var removeModal = $("#removeModal");
+  var nameEl = $("#J_template_name");
+  var pathEl = $("#J_template_path");
+  
+  $("#J_template_add").click(function(e){
+    addOrEditModal.removeClass('mode-edit');
+    addOrEditModal.find(".id").val('');
+    nameEl.val('');
+    pathEl.val('');
+    addOrEditModal.modal();
+  });
+  $(".table").delegate(".modify", "click", function(e){
+    e.preventDefault();
+    var $tr = $(e.currentTarget).parents('tr');
+    addOrEditModal.find(".id").val($tr.attr('data-id'));
+    addOrEditModal.addClass('mode-edit');
+    nameEl.val($tr.find(".name").text());
+    pathEl.val($tr.find(".path").text());
+    addOrEditModal.modal();
+  });
+  $(".table").delegate(".delete", "click", function(e){
+    e.preventDefault();
+    removeModal.find(".id").val($(e.currentTarget).parents('tr').attr('data-id'));
+    removeModal.modal();
+  });
+});
+</script>
 {% endblock %}

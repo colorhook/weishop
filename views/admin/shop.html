@@ -1,6 +1,7 @@
 {% set nav = "shop" %}
 {% extends "admin/base.html" %}
 {% block body %}
+
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">店铺列表<a style="color:#fff" href="/admin/shop/add" id="J_shop_add" class="btn btn-primary btn-xs pull-right">增加</a></h3>
@@ -10,10 +11,11 @@
       <thead>
           <tr>
             <th>店铺名称</th>
-            <th>套餐类型</th>
             <th>客户</th>
             <th>电话</th>
             <th>微信</th>
+            <th>套餐</th>
+            <th>模板</th>
             <th>创建者</th>
             <th>操作</th>
           </tr>
@@ -22,14 +24,14 @@
           {% for item in list %}
           <tr data-id="{{item._id}}">
             <th><a href="{{item.url}}" target="_blank">{{item.name}}</a></th>
-            <th>{{item.type}}</th>
             <th>{{item.customer}}</th>
             <th>{{item.tel}}</th>
             <th>{{item.weixin}}</th>
+            <th>{{item.suiteName}}</th>
+            <th>{{item.templateName}}</th>
             <th>{{item.creator}}</th>
             <th>
-              <a href="/admin/shop/{{item._id}}" target="_blank">详情</a>
-              <a href="/admin/shop/edit/{{item._id}}" target="_blank">编辑</a>
+              <a href="/admin/shop/edit/{{item._id}}">编辑</a>
               {% if admin.role.key >= 2 %}
               <a data-id="{{item._id}}" href="#" target="_blank">删除</a>
               {% endif %}
@@ -40,11 +42,30 @@
     </table>
     
     
+    {% if size > 1 %}
     <ul class="pagination">
+      {% if page == 1 %}
       <li class="disabled"><a href="#">&laquo;</a></li>
-      <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-      ...
+      {% else %}
+      <li><a href="/admin/shop?page={{ page - 1 }}">&laquo;</a></li>
+      {% endif %}
+
+      {% for i in range(1, size+1) -%}
+        {% if i == page %}
+        <li class="active"><a href="#">{{i}}</a></li>
+        {% else %}
+        <li><a href="/admin/shop?page={{i}}">{{i}}</a></li>
+        {% endif %}
+      {%- endfor %}
+      
+      {% if page == size %}
+      <li class="disabled"><a href="#">&raquo;</a></li>
+      {% else %}
+      <li><a href="/admin/shop?page={{ page + 1 }}">&raquo;</a></li>
+      {% endif %}
+      
     </ul>
+    {% endif %}
     
   </div>
  

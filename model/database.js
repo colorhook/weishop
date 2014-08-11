@@ -32,22 +32,30 @@ var Operation = mongoose.model('Operation', {
 
 var Shop = mongoose.model('Shop', {
   name: String,
+  url: String,
   weixin: String,
   customer: String,
   tel: String,
-  location: {
-    longitude: Number,
-    latitude: Number,
-    address: String
-  },
-  company: String,
   time: {type: Date, default: Date.now},
-  price: Number,
-  level: String,
+  suite: String,
   template: String,
+  creator: String,
   note: String
 });
 
+var Template = mongoose.model('Template', {
+  name: String,
+  path: String
+});
+
+/**
+@static
+@example
+    
+    var role = Role.create(0);
+    var roleList = Role.all();
+    var roleListFilter = Role.all(2);
+**/
 var Role = {
   data: ['报告员', '业务员', '管理员', '超级管理员'],
   create: function(v){
@@ -71,9 +79,11 @@ var Role = {
   }
 }
 
+
 exports.Admin = Admin;
 exports.Operation = Operation;
 exports.Suite = Suite;
+exports.Template = Template;
 exports.Shop = Shop;
 exports.Role = Role;
                            

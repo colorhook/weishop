@@ -43,23 +43,29 @@ exports.action = function(req, res){
     });
   }else{
     Suite.findById(id, function (err, suite) {
-    if(!suite){
-      req.flash('info', '修改出错！该套餐不存在');
-      return res.redirect('/admin/suite');
-    }
-
-    var $set = {
-      name: name,
-      price: price,
-      note: note
-    }
-    suite.update({$set: $set}, function(err){
-      if(err){
-        req.flash('info', err.message);
+      if(!suite){
+        req.flash('info', '修改出错！该套餐不存在');
+        return res.redirect('/admin/suite');
       }
-      return res.redirect('/admin/suite');
-    })
-  });
+
+      var $set = {
+        name: name,
+        price: price,
+        note: note
+      }
+      Suite.find({name: name}, function(err, data){
+        if(data && data.length){
+          req.flash('info', '修改失败！套餐名称已经存在，请重新设置套餐名称');
+          return res.redirect('/admin/suite');
+        }
+        suite.update({$set: $set}, function(err){
+          if(err){
+            req.flash('info', err.message);
+          }
+          return res.redirect('/admin/suite');
+        });
+      });
+    });
   }
 }
 
@@ -67,6 +73,9 @@ exports.delete = function(req, res){
   if(req.session.admin.role.key < 2){
     return res.redirect('admin/permission-error');
   }
+  
+  var id = req.param('id');
+  
   if(!id){
     req.flash('info', '请指定需要删除的套餐');
     return res.redirect('/admin/suite');
@@ -78,7 +87,7 @@ exports.delete = function(req, res){
           req.flash('info', err.message);
         }
         return res.redirect('/admin/suite');
-      })
+      });
     }else{
       req.flash('info', '未找到需要删除的套餐');
       return res.redirect('/admin/suite');
