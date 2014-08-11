@@ -1,6 +1,6 @@
 'use strict';
 module.exports = {
-  prefix: '/weishop',
+  prefix: '/',
   enableCluster: true,
   port: 8900,
   viewCache: false,
