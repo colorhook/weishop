@@ -52,13 +52,13 @@ exports.action = function(req, res){
       if(err){
         req.flash('info', '添加失败！请重试'); 
       }
-      return res.redirect('/admin/template');
+      return res.redirect('admin/template');
     });
   }else{
     Template.findById(id, function (err, template) {
       if(!template){
         req.flash('info', '修改出错！该模板不存在');
-        return res.redirect('/admin/template');
+        return res.redirect('admin/template');
       }
 
       var $set = {
@@ -69,14 +69,14 @@ exports.action = function(req, res){
       getNameOrPath(name, path, function(e, t){
         if(t){
           req.flash('info', '该模板已经存在，请重新设置名称和路径');
-          return res.redirect('/admin/template');
+          return res.redirect('admin/template');
         }
         
         template.update({$set: $set}, function(err){
           if(err){
             req.flash('info', err.message);
           }
-          return res.redirect('/admin/template');
+          return res.redirect('admin/template');
         })
         
       });
@@ -94,7 +94,7 @@ exports.delete = function(req, res){
   
   if(!id){
     req.flash('info', '请指定需要删除的套餐');
-    return res.redirect('/admin/template');
+    return res.redirect('admin/template');
   }
   Template.findById(id, function (err, template) {
     if(template){
@@ -102,11 +102,11 @@ exports.delete = function(req, res){
         if(err){
           req.flash('info', err.message);
         }
-        return res.redirect('/admin/template');
+        return res.redirect('admin/template');
       })
     }else{
       req.flash('info', '未找到需要删除的模板');
-      return res.redirect('/admin/template');
+      return res.redirect('admin/template');
     }
   });
 }

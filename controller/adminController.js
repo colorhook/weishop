@@ -84,11 +84,11 @@ exports.add = function(req, res){
   var admin = req.session.admin;
   if(!admin){
     req.flash('addInfo', '请先登录');
-    return res.redirect('/admin/login');
+    return res.redirect('admin/login');
   }
   if(admin.role.key < 2){
     req.flash('addInfo', '您的级别不够，无法增加管理人员帐号');
-    return res.redirect('/admin/admin');
+    return res.redirect('admin/admin');
   }
   
   var username = req.param('username');
@@ -107,14 +107,14 @@ exports.add = function(req, res){
   }
   if(addInfo){
     req.flash('addInfo', addInfo);
-    return res.redirect('/admin/admin');
+    return res.redirect('admin/admin');
   }
   
   insert(username, password1, role, function(err){
     if(err){
       req.flash('addInfo', err);
     }
-    res.redirect('/admin/admin');
+    res.redirect('admin/admin');
   });
 }
 
@@ -123,7 +123,7 @@ exports.edit = function(req, res){
   var admin = req.session.admin;
   if(!admin){
     req.flash('info', '请先登录');
-    return res.redirect('/admin/login');
+    return res.redirect('admin/login');
   }
   var username = req.param('username');
   var passwordOld = req.param('passwordOld');
@@ -151,20 +151,20 @@ exports.edit = function(req, res){
   
   if(info){
     req.flash('info', info);
-    return res.redirect('/admin/admin');
+    return res.redirect('admin/admin');
   }
   
   var id = req.param('id');
   
   Admin.findById(id, function (err, user) {
     if(!user){
-      return res.redirect('/admin/admin');
+      return res.redirect('admin/admin');
     }
     
     if(passwordOld || password1 || password2){
       if(passwordOld !== user.password){
         req.flash('info', '旧密码输入有误');
-        return res.redirect('/admin/admin');
+        return res.redirect('admin/admin');
       }
     }
     
@@ -179,7 +179,7 @@ exports.edit = function(req, res){
       if(err){
         req.flash('info', err.message);
       }
-      return res.redirect('/admin/admin');
+      return res.redirect('admin/admin');
     })
   });
 }
@@ -188,32 +188,32 @@ exports.delete = function(req, res){
   var admin = req.session.admin;
   if(!admin){
     req.flash('info', '请先登录');
-    return res.redirect('/admin/login');
+    return res.redirect('admin/login');
   }
   if(admin.role.key < 2){
     req.flash('info', '您的级别不够，无法删除管理人员帐号');
-    return res.redirect('/admin/permission-error');
+    return res.redirect('admin/permission-error');
   }
   var id = req.param('id');
   if(!id){
     req.flash('info', '请指定需要删除的管理人员');
-    return res.redirect('/admin/admin');
+    return res.redirect('admin/admin');
   }
   Admin.findById(id, function (err, user) {
     if(user){
       if(user.role.key == 3){
         req.flash('info', '该用户被锁定，您无权删除');
-        return res.redirect('/admin/permission-error');
+        return res.redirect('admin/permission-error');
       }
       user.remove(function(err){
         if(err){
           req.flash('info', err.message);
         }
-        return res.redirect('/admin/admin');
+        return res.redirect('admin/admin');
       })
     }else{
       req.flash('info', '未找到需要删除的用户');
-      return res.redirect('/admin/admin');
+      return res.redirect('admin/admin');
     }
   });
   

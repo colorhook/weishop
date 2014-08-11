@@ -65,7 +65,7 @@ exports.index = function(req, res){
 exports.add = function(req, res){
   getSuitesAndTemplates(function(err, suites, templates){
     if(err){
-      return res.redirect('/admin/permission-error');
+      return res.redirect('admin/permission-error');
     }
     res.render('admin/shop-edit.html', {
       mode: 'add',
@@ -80,22 +80,22 @@ exports.edit = function(req, res){
   var id = req.params.id || req.param('id');
 
   if(req.session.admin.role.key < 1){
-    return res.redirect('/admin/permission-error');
+    return res.redirect('admin/permission-error');
   }
   
   if(!id){
-    return res.redirect('/admin/permission-error');
+    return res.redirect('admin/permission-error');
   }
 
   Shop.findById(id, function(e, shop){
     if(!shop){
-      return res.redirect('/admin/permission-error');
+      return res.redirect('admin/permission-error');
     }
     
     getSuitesAndTemplates(function(err, suites, templates){
       if(err){
         req.flash('info', err.message);
-        return res.render('/admin/shop/edit/'+id);
+        return res.render('admin/shop/edit/'+id);
       }
       res.render('admin/shop-edit.html', {
         mode: 'edit',
@@ -129,7 +129,7 @@ exports.action = function(req, res){
 }
 exports.insert = function(req, res){
   if(req.session.admin.role.key < 1){
-    return res.redirect('/admin/permission-error');
+    return res.redirect('admin/permission-error');
   }
   var name = req.param('name');
   var url = req.param('url');
@@ -159,7 +159,7 @@ exports.insert = function(req, res){
   }
   if(info){
     req.flash('info', info);
-    return res.redirect('/admin/shop/add');
+    return res.redirect('admin/shop/add');
   }
   new Shop({
     name: name,
@@ -175,13 +175,13 @@ exports.insert = function(req, res){
     if(err){
       req.flash('info', err.message);
     }
-    return res.redirect('/admin/shop');
+    return res.redirect('admin/shop');
   });
 }
 
 exports.update = function(req, res){
   if(req.session.admin.role.key < 1){
-    return res.redirect('/admin/permission-error');
+    return res.redirect('admin/permission-error');
   }
   var id = req.params.id || req.param('id');
   var name = req.param('name');
@@ -213,13 +213,13 @@ exports.update = function(req, res){
   }
   if(info){
     req.flash('info', info);
-    return res.redirect('/admin/shop/edit/' + id);
+    return res.redirect('admin/shop/edit/' + id);
   }
   
   Shop.findById(id, function (err, shop) {
     if(!shop){
       req.flash('info', '修改出错！该店铺不存在');
-      return res.redirect('/admin/shop');
+      return res.redirect('admin/shop');
     }
 
     var $set = {
@@ -237,7 +237,7 @@ exports.update = function(req, res){
       if(err){
         req.flash('info', err.message);
       }
-      return res.redirect('/admin/shop');
+      return res.redirect('admin/shop');
     })
   });
 }
