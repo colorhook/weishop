@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block head %}
-<link rel='stylesheet' href='css/reset.css'>
-<link rel='stylesheet' href='css/base.css'>
+<link rel='stylesheet' href='{{basepath}}/css/reset.css'>
+<link rel='stylesheet' href='{{basepath}}/css/base.css'>
 {% endblock %}
 
 {% block body %}
@@ -84,8 +84,8 @@
   </ul>
 </footer>
 
-<script src="lib/zepto/zepto.min.js"></script>
-<script src="lib/swipe/swipe.js"></script>
+<script src="{{basepath}}/lib/zepto/zepto.min.js"></script>
+<script src="{{basepath}}/lib/swipe/swipe.js"></script>
 <script>
 $(function(){
   var bullets = document.querySelectorAll('#header .bullets em');

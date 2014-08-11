@@ -12,8 +12,8 @@
 
 
 <!-- addOrEdit Modal -->
-<div class="modal fade" id="addOrEditModal" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel" aria-hidden="true">
-  <form method="post" action="/admin/suite/action">
+<div class="modal fade" id="addOrEditModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <form method="post" action="{{basepath}}/admin/suite/action">
     <input type="hidden" class="id" name="id" value=""/>
     <div class="modal-dialog">
       <div class="modal-content">
@@ -46,8 +46,8 @@
 </div>
 
 <!-- remove Modal -->
-<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel" aria-hidden="true">
-  <form method="post" action="/admin/suite/delete">
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <form method="post" action="{{basepath}}/admin/suite/delete">
     <input class="id" name="id" type="hidden"/>
     <div class="modal-dialog">
       <div class="modal-content">

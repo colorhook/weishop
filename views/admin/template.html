@@ -13,7 +13,7 @@
 
 <!-- addOrEdit Modal -->
 <div class="modal fade" id="addOrEditModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <form method="post" action="/admin/template/action">
+  <form method="post" action="{{basepath}}/admin/template/action">
     <input type="hidden" class="id" name="id" value=""/>
     <div class="modal-dialog">
       <div class="modal-content">
@@ -43,7 +43,7 @@
 
 <!-- remove Modal -->
 <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <form method="post" action="/admin/template/delete">
+  <form method="post" action="{{basepath}}/admin/template/delete">
     <input class="id" name="id" type="hidden"/>
     <div class="modal-dialog">
       <div class="modal-content">
