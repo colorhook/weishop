@@ -14,7 +14,7 @@
 
 <!-- Add Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog"aria-hidden="true">
-  <form role="form" method="post" action="{{basepath}}/admin/admin/add">
+  <form role="form" method="post" action="/admin/admin/add">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -61,8 +61,8 @@
 </div>
 {% endif %}
 <!-- Remove Modal -->
-<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel" aria-hidden="true">
-  <form method="post" action="{{basepath}}/admin/admin/delete">
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <form method="post" action="/admin/admin/delete">
     <input class="id" name="id" type="hidden"/>
     <div class="modal-dialog">
       <div class="modal-content">
@@ -82,8 +82,8 @@
   </form>
 </div>
 
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <form method="post" action="{{basepath}}/admin/admin/edit">
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <form method="post" action="/admin/admin/edit">
     <input class="id" name="id" type="hidden"/>
     <div class="modal-dialog">
       <div class="modal-content">

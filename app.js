@@ -17,7 +17,7 @@ require('./model/database');
 //express and static
 var app = global.app = express();
 app.locals.pretty = false;
-app.use(express.static(path.join(__dirname, 'public')));
+
 app.set('view cache', config.viewCache);
 app.disable('x-powered-by');
 

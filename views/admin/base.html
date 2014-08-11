@@ -3,8 +3,8 @@
 <head>
 <meta charset='utf-8'>
 <title>{{title}}</title>
-<link rel='stylesheet' href='{{basepath}}/lib/bootstrap/css/bootstrap.min.css'>
-<link rel='stylesheet' href='{{basepath}}/lib/bootstrap-select/css/bootstrap-select.min.css'>
+<link rel='stylesheet' href='/lib/bootstrap/css/bootstrap.min.css'>
+<link rel='stylesheet' href='/lib/bootstrap-select/css/bootstrap-select.min.css'>
 <style>
 .navbar-nav>.active>a, .navbar-nav>.active>a:hover {
   color: #fff;
@@ -18,26 +18,26 @@
 <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
   <div class="container">
     <div class="navbar-header">
-      <a href="{{basepath}}/admin" class="navbar-brand"><span class="glyphicon glyphicon-tint"></span>WeiShop</a>
+      <a href="/admin" class="navbar-brand"><span class="glyphicon glyphicon-tint"></span>WeiShop</a>
     </div>
     <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
       <ul class="nav navbar-nav">
         <li{% if nav == "shop" %} class="active"{% endif %}>
-            <a href="{{basepath}}/admin/shop">店铺管理</a>
+            <a href="/admin/shop">店铺管理</a>
         </li>
         <li{% if nav == "suite" %} class="active"{% endif %}>
-            <a href="{{basepath}}/admin/suite">套餐管理</a>
+            <a href="/admin/suite">套餐管理</a>
         </li>
         <li{% if nav == "template" %} class="active"{% endif %}>
-            <a href="{{basepath}}/admin/template">模板管理</a>
+            <a href="/admin/template">模板管理</a>
         </li>
         <li{% if nav == "admin" %} class="active"{% endif %}>
-            <a href="{{basepath}}/admin/admin">系统管理</a>
+            <a href="/admin/admin">系统管理</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="{{basepath}}/admin/admin">{{admin.username}}</a></li>
-        <li><a href="{{basepath}}/admin/logout">登出</a></li>
+        <li><a href="/admin/admin">{{admin.username}}</a></li>
+        <li><a href="/admin/logout">登出</a></li>
       </ul>
     </nav>
   </div>
@@ -46,9 +46,9 @@
 {% block body %}
 {% endblock %}
 </section>
-<script src="{{basepath}}/lib/jquery/jquery.js"></script>
-<script src="{{basepath}}/lib/bootstrap/js/bootstrap.min.js"></script>
-<script src="{{basepath}}/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
+<script src="/lib/jquery/jquery.js"></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
 <script>
 $('.selectpicker').selectpicker({
   width:'fit'
