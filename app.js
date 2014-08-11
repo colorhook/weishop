@@ -6,6 +6,7 @@ var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
+var wechat = require('./lib/wechat');
 var config = require('./config');
 var routes = require('./routes');
 var nunjucks = require('nunjucks');
@@ -53,6 +54,9 @@ app
 
 //routes
 routes(app);
+
+//wechat
+wechat(app);
 
 //listen
 module.exports = (function() {

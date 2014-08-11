@@ -31,7 +31,7 @@ exports.index = function(req, res){
   if(isNaN(page) || page < 1){
     page = 1;
   }
-  var pageCount = 5;
+  var pageCount = 20;
   var count;
   var size;
   
