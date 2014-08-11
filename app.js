@@ -52,11 +52,11 @@ app
   console.error('[%s][%s] Express handle exception: [%s]', new Date(), process.pid, err);
 });
 
-//routes
-routes(app);
-
 //wechat
 wechat(app);
+
+//routes
+routes(app);
 
 //listen
 module.exports = (function() {
