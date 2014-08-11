@@ -33,7 +33,7 @@ module.exports = function(app){
       require('nunjucks/src/globals').admin = req.session.admin;
       return next();
     }
-    res.redirect(prefix+'admin/login');
+    res.redirect('/admin/login');
   });
   
   app.get(['/admin', '/admin/index.html'], function(req, res, next){
