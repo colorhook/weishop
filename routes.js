@@ -13,9 +13,11 @@ var shopController = require('./controller/shopController');
 module.exports = function(app){
   
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use('/templates', express.static(path.join(__dirname, 'templates')));
   require('nunjucks/src/globals').basepath = "";
   
   app.get(['/', '/index.htm', '/index.html'], frontendController.index);
+  app.get(['/error', '/error.html'], frontendController.error);
   
   app.get('/admin/permission-error', function(req, res){
     res.render('admin/permission-error.html');
