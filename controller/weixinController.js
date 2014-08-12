@@ -7,6 +7,11 @@ exports.subscribe = function(weixinID, callback){
       return calback('shop not found');
     }
     if(!shop.subscribe || !shop.subscribe.title){
+      shop.subscribe = {
+        title: '欢迎订阅32like',
+        description: '大风起兮云飞扬，安的猛士兮走四方',
+        picurl: 'http://oldimg.brandcn.com/UploadFiles_9675/201209/2012091011571822.jpg'
+      }
       //return callback('shop setting is not completed');
     }
     callback(null, {
