@@ -4,9 +4,10 @@ var Shop = database.Shop;
 exports.subscribe = function(weixinID, callback){
   console.log(weixinID);
   Shop.find({weixinID: weixinID}, function(err, shop){
-    if(!shop){
+    if(!shop || shop.length == 0){
       return calback('shop not found');
     }
+    shop = shop[0];
     if(!shop.subscribe || !shop.subscribe.title){
       shop.subscribe = {
         title: '欢迎订阅32like',
