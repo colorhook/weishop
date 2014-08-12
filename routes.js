@@ -3,6 +3,7 @@ var path = require('path');
 var express = require('express');
 var config = require('./config');
 
+var frontendController = require('./controller/frontendController');
 var loginController = require('./controller/loginController');
 var adminController = require('./controller/adminController');
 var suiteController = require('./controller/suiteController');
@@ -14,11 +15,7 @@ module.exports = function(app){
   app.use(express.static(path.join(__dirname, 'public')));
   require('nunjucks/src/globals').basepath = "";
   
-  app.get(['/', '/index.htm', '/index.html'], function(req, res) {
-    res.render('index.html', {
-      title: ''
-    });
-  });
+  app.get(['/', '/index.htm', '/index.html'], frontendController.index);
   
   app.get('/admin/permission-error', function(req, res){
     res.render('admin/permission-error.html');
