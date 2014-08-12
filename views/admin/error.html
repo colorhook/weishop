@@ -1,0 +1,14 @@
+{% set title = "WeiShop - 出错了" %}
+{% extends "admin/base.html" %}
+{% block body %}
+<div class="jumbotron">
+  <h2>出错了</h2>
+  <p>{{info}}</p>
+  <p>
+    {% if backurl and backurl != '' %}
+    <a class="btn btn-primary btn-lg" href="{{backurl}}" role="button">返回</a>
+    {% endif %}
+    <a class="btn btn-primary btn-lg" href="/admin/admin" role="button">去首页</a>
+  </p>
+</div>
+{% endblock %}

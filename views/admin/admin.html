@@ -2,8 +2,6 @@
 {% extends "admin/base.html" %}
 {% block body %}
 
-{% if admin.role.key == 3 %}
-
 {% if addInfo and addInfo != "" %}
 <div class="alert alert-danger alert-dismissible fade in" role="alert">
   <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
@@ -51,7 +49,7 @@
     </div>
    </form>
 </div>
-{% endif %}
+
 
 {% if info and info != "" %}
 <div class="alert alert-danger alert-dismissible fade in" role="alert">
@@ -128,10 +126,15 @@
 <!-- manage list -->
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">管理人员<button type="button" id="J_admin_add" class="btn btn-primary btn-xs pull-right">增加</button></h3>
+    <h3 class="panel-title">
+      管理人员
+      {% if admin.role.key >= 2 %}
+      <button type="button" id="J_admin_add" class="btn btn-primary btn-xs pull-right">增加</button>
+      {% endif %}
+    </h3>
   </div>
-  <div class="panel-body">
-    <table class="table table-bordered">
+  <div class="panel-body table-responsive">
+    <table class="table table-bordered table-hover">
       <thead>
           <tr>
             <th>用户名</th>
@@ -187,6 +190,7 @@ $(function(){
     editModal.find(".input-reset").val("");
     editUserEl.val($tr.attr('data-username'));
     editRoleEl.val($tr.attr('data-role-key'));
+    $('.selectpicker').selectpicker('refresh');
     editModal.modal();
   });
   

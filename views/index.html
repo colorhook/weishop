@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel='stylesheet' href='/css/reset.css'>
+<link rel='stylesheet' href='{{template}}/base.css'>
+{% endblock %}
+
+{% block body %}
+<header id="header">
+  <div id="slider">
+    <ul style="-webkit-transform:translate3d(0,0,0);">
+      <li>
+        <a href="http://wd.koudai.com/?userid=3065003">
+          <img src="http://www.hzjushi.com/uploads/h/hzpmfe1404354287/d/1/7/9/thumb_53b4c182e6380.jpg">
+         </a>
+      </li>
+      <li>
+         <a href="http://wd.koudai.com/?userid=3065003">
+          <img src="http://www.hzjushi.com/uploads/h/hzpmfe1404354287/d/7/b/2/thumb_53b4c19023499.jpg">
+         </a>
+      </li>
+      <li>
+        <a href="http://wd.koudai.com/?userid=3065003">
+          <img src="http://www.hzjushi.com/uploads/h/hzpmfe1404354287/3/3/c/c/thumb_53b4c1a38b610.jpg">
+         </a>
+      </li>
+    </ul>
+  </div>
+  <span class='bullets'>
+     <em class='on'>&bull;</em>
+     <em>&bull;</em>
+     <em class="last">&bull;</em>
+  </span>
+</header>
+
+<section id="nav">
+  <ul class="fix-float">
+    <li>
+      <a href="">
+        <img src="http://www.hzjushi.com/uploads/h/hzpmfe1404354287/f/1/0/9/thumb_53b4c1eb651a8.jpg">
+      </a>
+    </li>
+    <li>
+      <a href="#">
+       <img src="http://www.hzjushi.com/uploads/h/hzpmfe1404354287/f/c/b/f/thumb_53b4c242748d4.jpg">
+      </a>
+    </li>
+    <li>
+      <a href="">
+        <img src="http://www.hzjushi.com/uploads/h/hzpmfe1404354287/4/9/a/4/thumb_53b4c29d7c604.jpg">
+      </a>
+    </li>
+    <li>
+      <a href="">
+        <img src="http://www.hzjushi.com/uploads/h/hzpmfe1404354287/8/1/f/0/thumb_53b4c2d742eeb.jpg">
+      </a>
+    </li>
+  </ul>
+</section>
+
+<section id="info">
+  <p>©xx网络科技有限公司</p>
+</section>
+
+<footer id="footer">
+  <ul>
+    <li>
+      <a href="tel:0571-28985182">
+        <img src="http://www.hzjushi.com/tpl/User/default/common/images/photo/plugmenu1.png">
+        <label>直接拨打</label>
+      </a>    
+    </li>
+    <li>
+      <a href="/index.php?g=Wap&amp;m=Company&amp;a=map&amp;token=hzpmfe1404354287&amp;wecha_id=ofv44uOkedEBQNYJurOISUk_uYYI&amp;companyid=13">
+        <img src="http://www.hzjushi.com/tpl/User/default/common/images/photo/plugmenu3.png">
+        <label>地址导航</label>
+      </a>
+    </li>
+    <li>
+      <a href="http://wd.koudai.com/?userid=3065003">
+        <img src="http://www.hzjushi.com/tpl/User/default/common/images/photo/plugmenu18.png">
+        <label>微小店</label>
+      </a>
+    </li>
+  </ul>
+</footer>
+
+<script src="{{basepath}}/lib/zepto/zepto.min.js"></script>
+<script src="{{basepath}}/lib/swipe/swipe.js"></script>
+<script>
+$(function(){
+  var bullets = document.querySelectorAll('#header .bullets em');
+  var slider = new Swipe(document.getElementById('slider'), {
+    speed:500,
+    auto:3000,
+    callback: function(pos) {
+      $('.bullets .on').removeClass('on');
+      bullets.item(pos).classList.add('on');
+    }
+  });
+});
+</script>
+{% endblock %}

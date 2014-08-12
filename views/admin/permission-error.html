@@ -4,6 +4,11 @@
 <div class="jumbotron">
   <h2>权限不够</h2>
   <p>该页面需要更高的权限才能操作，请先更换帐号！</p>
-  <p><a class="btn btn-primary btn-lg" href="{{basepath}}/admin/logout" role="button">更换帐号</a></p>
+  <p>
+    {% if backurl and backurl != '' %}
+    <a class="btn btn-primary btn-lg" href="{{backurl}}" role="button">返回</a>
+    {% endif %}
+    <a class="btn btn-primary btn-lg" href="{{basepath}}/admin/logout" role="button">更换帐号</a>
+  </p>
 </div>
 {% endblock %}

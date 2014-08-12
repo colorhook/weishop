@@ -59,7 +59,6 @@ exports.index = function(req, res){
       });
     });
   });
-  
 }
 
 exports.add = function(req, res){
@@ -84,12 +83,17 @@ exports.edit = function(req, res){
   }
   
   if(!id){
-    return res.redirect('/admin/permission-error');
+    req.flash('info', '请指定店铺ID');
+    req.flash('backurl', '/admin/shop');
+    return res.redirect('/admin/error');
   }
 
   Shop.findById(id, function(e, shop){
+    
     if(!shop){
-      return res.redirect('/admin/permission-error');
+      req.flash('info', '店铺ID' + id + '有误，没有找到该店铺');
+      req.flash('backurl', '/admin/shop');
+      return res.redirect('/admin/error');
     }
     
     getSuitesAndTemplates(function(err, suites, templates){

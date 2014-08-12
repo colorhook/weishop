@@ -74,7 +74,12 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">模板列表<button id="J_template_add" class="btn btn-primary btn-xs pull-right">增加</button></h3>
+    <h3 class="panel-title">
+      模板列表
+      {% if admin.role.key == 3 %}
+      <button id="J_template_add" class="btn btn-primary btn-xs pull-right">增加</button>
+      {% endif %}
+    </h3>
   </div>
   <div class="panel-body">
     <table class="table table-bordered">
@@ -82,7 +87,9 @@
           <tr>
             <th>模板名称</th>
             <th>模板路径</th>
+            {% if admin.role.key == 3 %}
             <th>操作</th>
+            {% endif %}
           </tr>
       </thead>
       <tbody>
@@ -90,10 +97,12 @@
           <tr data-id="{{item._id}}">
             <th class="name">{{item.name}}</th>
             <th class="path">{{item.path}}</th>
+            {% if admin.role.key == 3 %}
             <th>
               <a href="#" class="modify">修改</a>
               <a href="#" class="delete">删除</a>
             </th>
+             {% endif %}
           </tr>
           {% endfor %}
       </tbody>

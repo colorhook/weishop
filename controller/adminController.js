@@ -187,12 +187,12 @@ exports.edit = function(req, res){
 exports.delete = function(req, res){
   var admin = req.session.admin;
   if(!admin){
-    req.flash('info', '请先登录');
+    req.flash('info', '');
     return res.redirect('/admin/login');
   }
   if(admin.role.key < 2){
     req.flash('info', '您的级别不够，无法删除管理人员帐号');
-    return res.redirect('/admin/permission-error');
+    return res.redirect('/admin/admin');
   }
   var id = req.param('id');
   if(!id){
@@ -203,7 +203,7 @@ exports.delete = function(req, res){
     if(user){
       if(user.role.key == 3){
         req.flash('info', '该用户被锁定，您无权删除');
-        return res.redirect('/admin/permission-error');
+        return res.redirect('/admin/admin');
       }
       user.remove(function(err){
         if(err){

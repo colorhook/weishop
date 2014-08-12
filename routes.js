@@ -21,8 +21,17 @@ module.exports = function(app){
   
   app.get(['/error', '/error.html'], frontendController.error);
   
+  app.get('/admin/error', function(req, res){
+    res.render('admin/error.html', {
+      info: req.flash('info'),
+      backurl: req.flash('backurl')
+    });
+  });
   app.get('/admin/permission-error', function(req, res){
-    res.render('admin/permission-error.html');
+    res.render('admin/permission-error.html', {
+      info: req.flash('info'),
+      backurl: req.flash('backurl')
+    });
   });
   
   app.get('/admin/login', loginController.index)

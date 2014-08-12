@@ -89,7 +89,9 @@
             <th>套餐名称</th>
             <th>套餐价格</th>
             <th>套餐描述</th>
+            {% if admin.role.key >= 2 %}
             <th>操作</th>
+            {% endif %}
           </tr>
       </thead>
       <tbody>
@@ -98,10 +100,12 @@
             <th class="name">{{item.name}}</th>
             <th class="price">{{item.price}}</th>
             <th class="note">{{item.note}}</th>
+            {% if admin.role.key >= 2 %}
             <th>
               <a href="#" class="modify">修改</a>
               <a href="#" class="delete">删除</a>
             </th>
+            {% endif %}
           </tr>
           {% endfor %}
       </tbody>
