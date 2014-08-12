@@ -2,7 +2,7 @@ var database = require('../model/database');
 var Shop = database.Shop;
 
 exports.subscribe = function(weixinID, callback){
-  Shop.find({weixin: weixinID}, function(err, shop){
+  Shop.find({weixinID: weixinID}, function(err, shop){
     if(!shop){
       return calback('shop not found');
     }
@@ -14,6 +14,7 @@ exports.subscribe = function(weixinID, callback){
       }
       //return callback('shop setting is not completed');
     }
+    console.log('http://weishop.zmzp.cn/shop/' + shop._id);
     callback(null, [{
       title: shop.subscribe.title,
       description: shop.subscribe.description,
