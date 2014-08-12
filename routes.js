@@ -16,7 +16,6 @@ module.exports = function(app){
   app.use('/templates', express.static(path.join(__dirname, 'templates')));
   require('nunjucks/src/globals').basepath = "";
   
-  app.get(['/', '/index.htm', '/index.html'], frontendController.index);
   app.get('/shop/:shop', frontendController.index);
   
   app.get(['/error', '/error.html'], frontendController.error);
@@ -32,6 +31,10 @@ module.exports = function(app){
       info: req.flash('info'),
       backurl: req.flash('backurl')
     });
+  });
+  
+  app.get(['/', '/index.htm', '/index.html'], function(req, res){
+    res.redirect('/admin');
   });
   
   app.get('/admin/login', loginController.index)
