@@ -54,9 +54,9 @@ exports.action = function(req, res){
         note: note
       }
       Suite.find({name: name}, function(err, data){
-        if(data && data.length){
+        if(data && data.length && data[0].id !== id){
           req.flash('info', '修改失败！套餐名称已经存在，请重新设置套餐名称');
-          return res.redirect('admin/suite');
+          return res.redirect('/admin/suite');
         }
         suite.update({$set: $set}, function(err){
           if(err){
