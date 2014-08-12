@@ -14,11 +14,11 @@ exports.subscribe = function(weixinID, callback){
       }
       //return callback('shop setting is not completed');
     }
-    callback(null, {
+    callback(null, [{
       title: shop.subscribe.title,
       description: shop.subscribe.description,
       picurl: shop.subscribe.img,
       url: 'http://weishop.zmzp.cn/' + shop.id
-    });
+    }]);
   });
 }
