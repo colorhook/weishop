@@ -3,12 +3,12 @@ var adminController = require('./adminController');
 
 exports.index = function(req, res){
   if(req.session.admin){
-    return res.redirect('admin');
+    return res.redirect('/admin');
   }
   adminController.loginByToken(req.cookies.admin, req.cookies.lastToken, function(err, admin){
     if(admin){
       req.session.admin = admin;
-      return res.redirect('admin');
+      return res.redirect('/admin');
     }
     res.render('admin/login.html', {
       loginError: req.session.loginError
@@ -26,7 +26,7 @@ exports.login = function(req, res){
   adminController.login(username, password, function(err, admin){
     if(err){
       req.session.loginError = true;
-      return res.redirect('admin/login');
+      return res.redirect('/admin/login');
     }else{
       delete req.session.loginError;
       req.session.admin = admin;
@@ -38,7 +38,7 @@ exports.login = function(req, res){
         res.clearCookie ('admin');
         res.clearCookie ('lastToken');
       }
-      return res.redirect('admin');
+      return res.redirect('/admin');
     }
   }, remember ? sid : null);
 }
@@ -47,5 +47,5 @@ exports.logout = function(req, res){
   delete req.session.admin;
   res.clearCookie ('admin');
   res.clearCookie ('lastToken');
-  res.redirect('admin/login');
+  res.redirect('/admin/login');
 }

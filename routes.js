@@ -17,6 +17,8 @@ module.exports = function(app){
   require('nunjucks/src/globals').basepath = "";
   
   app.get(['/', '/index.htm', '/index.html'], frontendController.index);
+  app.get('/shop/:shop', frontendController.index);
+  
   app.get(['/error', '/error.html'], frontendController.error);
   
   app.get('/admin/permission-error', function(req, res){
@@ -42,10 +44,9 @@ module.exports = function(app){
   app.get('/admin/shop', shopController.index);
   app.get('/admin/shop/add', shopController.add);
   app.get('/admin/shop/edit/:id', shopController.edit);
+  app.all('/admin/shop/delete', shopController.delete);
   app.all('/admin/shop/action', shopController.action);
-  
-  
-  
+ 
   app.get('/admin/suite', suiteController.index);
   app.post('/admin/suite/action', suiteController.action);
   app.post('/admin/suite/delete', suiteController.delete);
@@ -58,8 +59,6 @@ module.exports = function(app){
   app.post('/admin/admin/delete', adminController.delete);
   app.post('/admin/admin/add', adminController.add);
   app.post('/admin/admin/edit', adminController.edit);
-  
-
   
   app.get('/config', function(req, res) {
     res.json(config);

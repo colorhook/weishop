@@ -34,12 +34,18 @@ var Shop = mongoose.model('Shop', {
   name: String,
   url: String,
   weixin: String,
+  weixinID: String,
   customer: String,
   tel: String,
   time: {type: Date, default: Date.now},
   suite: String,
   template: String,
   creator: String,
+  subscribe: {
+    title: String,
+    description: String,
+    img: String
+  },
   note: String
 });
 

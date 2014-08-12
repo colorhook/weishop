@@ -30,7 +30,8 @@ env.addFilter('time', function(input, format){
 
 exports.index = function(req, res){
   var page = req.param('page') || 'index';
-  var shopid = req.param('shop') || '53e84ecfc4e067381e4557f7'
+  var shopid = req.params.shop || req.param('shop');
+  console.log("shopid:"+shopid);
   if(!shopid){
     req.flash('info', '店铺ID丢失');
     return res.redirect('/error.html');

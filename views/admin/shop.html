@@ -2,6 +2,28 @@
 {% extends "admin/base.html" %}
 {% block body %}
 
+<!-- remove Modal -->
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <form method="post" action="/admin/shop/delete">
+    <input class="id" name="id" type="hidden"/>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title">删除店铺</h4>
+        </div>
+        <div class="modal-body">
+          <p>该操作将永久删除该条店铺数据，确认要继续执行？</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary btn-submit">确定</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">店铺列表<a style="color:#fff" href="/admin/shop/add" id="J_shop_add" class="btn btn-primary btn-xs pull-right">增加</a></h3>
@@ -14,6 +36,7 @@
             <th>客户</th>
             <th>电话</th>
             <th>微信</th>
+            <th>微信OpenID</th>
             <th>套餐</th>
             <th>模板</th>
             <th>创建者</th>
@@ -27,13 +50,14 @@
             <th>{{item.customer}}</th>
             <th>{{item.tel}}</th>
             <th>{{item.weixin}}</th>
+            <th>{{item.weixinID}}</th>
             <th>{{item.suiteName}}</th>
             <th>{{item.templateName}}</th>
             <th>{{item.creator}}</th>
             <th>
               <a href="/admin/shop/edit/{{item._id}}">编辑</a>
               {% if admin.role.key >= 2 %}
-              <a data-id="{{item._id}}" href="#" target="_blank">删除</a>
+              <a class="delete" data-id="{{item._id}}" href="#">删除</a>
               {% endif %}
             </th>
           </tr>
@@ -71,4 +95,17 @@
  
     
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+$(function(){
+  var removeModal = $("#removeModal");
+  $(".table").delegate(".delete", "click", function(e){
+    e.preventDefault();
+    removeModal.find(".id").val($(e.currentTarget).parents('tr').attr('data-id'));
+    removeModal.modal();
+  });
+});
+</script>
 {% endblock %}

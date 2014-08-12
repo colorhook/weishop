@@ -105,6 +105,7 @@ exports.edit = function(req, res){
         url: shop.url,
         customer: shop.customer,
         weixin: shop.weixin,
+        weixinID: shop.weixinID,
         tel: shop.tel,
         suites: suites,
         templates: templates,
@@ -135,6 +136,7 @@ exports.insert = function(req, res){
   var url = req.param('url');
   var customer = req.param('customer');
   var weixin = req.param('weixin');
+  var weixinID = req.param('weixinID');
   var tel = req.param('tel');
   var suite = req.param('suite');
   var template = req.param('template');
@@ -150,6 +152,8 @@ exports.insert = function(req, res){
     info = '客户姓名不能为空';
   }else if(!weixin){
     info = '微信号不能为空';
+  }else if(!weixinID){
+    info = '微信OpenID不能为空';
   }else if(!tel){
     info = '客户电话不能为空';
   }else if(!suite){
@@ -188,6 +192,7 @@ exports.update = function(req, res){
   var url = req.param('url');
   var customer = req.param('customer');
   var weixin = req.param('weixin');
+  var weixinID = req.param('weixinID');
   var tel = req.param('tel');
   var suite = req.param('suite');
   var template = req.param('template');
@@ -204,6 +209,8 @@ exports.update = function(req, res){
     info = '客户姓名不能为空';
   }else if(!weixin){
     info = '微信号不能为空';
+  }else if(!weixinID){
+    info = '微信OpenID不能为空';
   }else if(!tel){
     info = '客户电话不能为空';
   }else if(!suite){
@@ -227,6 +234,7 @@ exports.update = function(req, res){
       url: url,
       customer: customer,
       weixin: weixin,
+      weixinID: weixinID,
       tel: tel,
       suite: suite,
       template: template,
@@ -239,5 +247,33 @@ exports.update = function(req, res){
       }
       return res.redirect('/admin/shop');
     })
+  });
+}
+
+exports.delete = function(req, res){
+  var id = req.param('id');
+  if(!id){
+    req.flash('info', '请指定需要删除的店铺');
+    return res.redirect('/admin/shop');
+  }
+  if(req.session.admin.role.key < 1){
+    return res.redirect('/admin/permission-error');
+  }
+  Shop.findById(id, function (err, shop) {
+    if(shop){
+      if(req.session.admin.role.key == 1 && shop.creator != req.session.admin.username){
+        req.flash('info', "该店铺不是你创建的，若要删除请联系管理员");
+        return res.redirect('/admin/shop');
+      }
+      shop.remove(function(err){
+        if(err){
+          req.flash('info', err.message);
+        }
+        return res.redirect('/admin/shop');
+      });
+    }else{
+      req.flash('info', '未找到需要删除的店铺');
+      return res.redirect('/admin/shop');
+    }
   });
 }
