@@ -34,7 +34,7 @@ module.exports = function(app){
   });
   
   app.get(['/', '/index.htm', '/index.html'], function(req, res){
-    res.redirect('/admin');
+    res.render('index.html');
   });
   
   app.get('/admin/login', loginController.index)
