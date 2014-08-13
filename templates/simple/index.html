@@ -1,28 +1,64 @@
 {% extends "base.html" %}
 {% block head %}
-<link rel='stylesheet' href='/css/reset.css'>
+<link rel='stylesheet' href='/lib/bootstrap/css/bootstrap.min.css'>
 <link rel='stylesheet' href='{{template_root}}/base.css'>
+<style>
+.e-tab {
+	display: -webkit-box;
+	margin: 0;
+	-webkit-box-align: stretch;  
+}
+.e-tabitem {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff),  color-stop(100%,#ebebeb));
+	border-bottom:solid 1px #cdcdcd;
+	border-left:solid 1px #cdcdcd;
+	font-weight: normal;
+	cursor: pointer;
+	color:#0444;
+	font-weight:bold;
+	padding: 10px 0;  
+	-webkit-box-flex: 1;
+	width:100%;
+	text-align: center;
+	border-right-width: 0;
+	margin: 0;
+  display: block;
+  color:#666;text-decoration: none
+}
+.e-tabitem.hover,.e-tabitem:active,.e-tabitem:focus{
+	color:#222;
+  text-decoration: none;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#bbb),  color-stop(100%,#ebebeb));
+}
+.e-tabitem:first-child{
+	border-left:none;
+	-webkit-border-radius: 0;
+}
+.e-tabitem:last-child{
+	-webkit-border-radius: 0;
+}
+.e-tabitem.selected{
+	font-weight:bold;
+	font-size:24px;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fe4905), color-stop(100%,#ffa300));
+}
+
+#footer{min-height: 40px}
+#footer .glyphicon{margin-right:10px}
+</style>
 {% endblock %}
 
 {% block body %}
 <header id="header">
   <div id="slider">
     <ul style="-webkit-transform:translate3d(0,0,0);">
+      {% for banner in data.banners %}
       <li>
-        <a href="http://wd.koudai.com/?userid=3065003">
-          <img src="http://www.hzjushi.com/uploads/h/hzpmfe1404354287/d/1/7/9/thumb_53b4c182e6380.jpg">
+        <a href="{{shop.url}}">
+          <img src="{{banner.img}}">
          </a>
       </li>
-      <li>
-         <a href="http://wd.koudai.com/?userid=3065003">
-          <img src="http://www.hzjushi.com/uploads/h/hzpmfe1404354287/d/7/b/2/thumb_53b4c19023499.jpg">
-         </a>
-      </li>
-      <li>
-        <a href="http://wd.koudai.com/?userid=3065003">
-          <img src="http://www.hzjushi.com/uploads/h/hzpmfe1404354287/3/3/c/c/thumb_53b4c1a38b610.jpg">
-         </a>
-      </li>
+      {% endfor %}
     </ul>
   </div>
   <span class='bullets'>
@@ -58,30 +94,18 @@
 </section>
 
 <section id="info">
-  <p>©xx网络科技有限公司</p>
+  <p>{{data.company}}</p>
 </section>
 
-<footer id="footer">
-  <ul>
-    <li>
-      <a href="tel:0571-28985182">
-        <img src="http://www.hzjushi.com/tpl/User/default/common/images/photo/plugmenu1.png">
-        <label>直接拨打</label>
-      </a>    
-    </li>
-    <li>
-      <a href="/index.php?g=Wap&amp;m=Company&amp;a=map&amp;token=hzpmfe1404354287&amp;wecha_id=ofv44uOkedEBQNYJurOISUk_uYYI&amp;companyid=13">
-        <img src="http://www.hzjushi.com/tpl/User/default/common/images/photo/plugmenu3.png">
-        <label>地址导航</label>
-      </a>
-    </li>
-    <li>
-      <a href="http://wd.koudai.com/?userid=3065003">
-        <img src="http://www.hzjushi.com/tpl/User/default/common/images/photo/plugmenu18.png">
-        <label>微小店</label>
-      </a>
-    </li>
-  </ul>
+<footer id="footer" class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+  <div class="e-tab">
+    <a class="e-tabitem" href="tel:{{shop.tel}}">
+      <span class="glyphicon glyphicon-earphone"></span>拨打电话
+    </a> 
+    <a class="e-tabitem" href="{{shop.url}}">
+      <span class="glyphicon glyphicon-heart"></span>进入微店
+    </a>
+  </div>
 </footer>
 
 <script src="/lib/zepto/zepto.min.js"></script>
@@ -97,6 +121,9 @@ $(function(){
       bullets.item(pos).classList.add('on');
     }
   });
+});
+document.addEventListener('WeixinJSBridgeReady', function{
+	WeixinJSBridge.call('hideToolbar');
 });
 </script>
 {% endblock %}

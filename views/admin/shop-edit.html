@@ -1,10 +1,33 @@
 {% set nav = "shop" %}
 {% extends "admin/base.html" %}
 {% block body %}
+<style>
+.panel-heading{padding 0}
+.panel-heading a{display:block;padding 10px 15px}
+.panel-heading a:hover,.panel-heading a:focus{text-decoration: none}
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+}
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  -ms-filter: 'alpha(opacity=0)';
+  font-size: 200px;
+  direction: ltr;
+  cursor: pointer;
+}
+.fileinput-input{width:80%}
+@media (max-width:600px){
+  .fileinput-input{width:60%}
+}
+</style>
 <script type="text/data">
 {{templates|json|safe}}
 </script>
-
 {% if info and info != "" %}
 <div class="alert alert-danger alert-dismissible fade in" role="alert">
   <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
@@ -13,105 +36,222 @@
 </div>
 {% endif %}
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">
-      {% if mode == "add" %}
-      新增店铺
-      {% else %}
-      修改店铺
-      {% endif %}
-    </h3>
-  </div>
-  <div class="panel-body">
-    <form class="form-horizontal" role="form" action="/admin/shop/action" method="post">
-      <input type="hidden" name="mode" value="{{mode}}"/>
-      <input type="hidden" name="id" value="{{id}}"/>
-      <div class="form-group">
-        <label for="J_shop_name" class="col-sm-2 control-label">店铺名称：</label>
-        <div class="col-sm-10">
-          <input id="J_shop_name" class="form-control" type="text" name="name" value="{{name}}" placeholder="输入店铺名称"/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="J_shop_url"  class="col-sm-2 control-label">店铺网址：</label>
-        <div class="col-sm-10">
-          <input id="J_shop_url" class="form-control" type="text" name="url" value="{{url}}" placeholder="输入店铺网址"/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="J_shop_weixin"  class="col-sm-2 control-label">微信号：</label>
-        <div class="col-sm-10">
-          <input id="J_shop_weixin" class="form-control" type="text" name="weixin" value="{{weixin}}" placeholder="输入微信号"/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="J_shop_weixinID"  class="col-sm-2 control-label">微信OpenID：</label>
-        <div class="col-sm-10">
-          <input id="J_shop_weixinID" class="form-control" type="text" name="weixinID" value="{{weixinID}}" placeholder="输入微信OpenID"/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="J_shop_customer"  class="col-sm-2 control-label">联系人：</label>
-        <div class="col-sm-10">
-          <input id="J_shop_customer" class="form-control" type="text" name="customer" value="{{customer}}" placeholder="输入联系人姓名"/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="J_shop_tel"  class="col-sm-2 control-label">电话：</label>
-        <div class="col-sm-10">
-          <input id="J_shop_tel" class="form-control" type="text" name="tel" value="{{tel}}" placeholder="输入联系人电话"/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="J_shop_level"  class="col-sm-2 control-label">套餐类型：</label>
-        <div class="col-sm-10">
-          <select name="suite" class="selectpicker" value="{{suite}}">
-            {% for s in suites %}
-            <option value="{{s._id}}">{{s.name}}</option>
-            {% endfor %}
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="J_shop_template" class="col-sm-2 control-label">店铺模板：</label>
-        <div class="col-sm-10">
-     
-          <select name="template" class="selectpicker" value="{{template}}">
-            {% for t in templates %}
-            <option value="{{t._id}}">{{t.name}}</option>
-            {% endfor %}
-          </select>
-       
-        </div>
-      </div>
-      {% if mode == 'edit' %}
-      <div class="form-group">
-        <label for="J_shop_creator"  class="col-sm-2 control-label">创建人：</label>
-        <div class="col-sm-10">
-          <input id="J_shop_creator" class="form-control" type="text" readonly name="creator" value="{{creator}}"/>
-        </div>
-      </div>
-      {% endif %}
-      <div class="form-group">
-        <label for="J_shop_note" class="col-sm-2 control-label">备注：</label>
-        <div class="col-sm-10">
-          <textarea name="note" class="form-control" rows="5" id="J_shop_note">{{note}}</textarea>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10" style="text-align:right">
-          <a href="/admin/shop" class="btn btn-default">返回店铺列表</a>
-          <button type="submit" class="btn btn-primary">
-          {% if mode == "add" %}
-          确认新增店铺
-          {% else %}
-          确认修改店铺
+
+  <h3>
+    {% if mode == "add" %}
+    <span class="glyphicon glyphicon-plus"></span>
+    新增店铺
+    {% else %}
+    <span class="glyphicon glyphicon-pencil"></span>
+    编辑店铺
+    {% endif %}
+  </h3>
+
+
+<!--accordion-->
+<div class="panel-group" id="accordion">
+  <!--basic-->
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseBasic">
+          基本信息
+        </a>
+      </h4>
+    </div>
+    <div id="collapseBasic" class="panel-collapse collapse in">
+      <div class="panel-body">
+        <form class="form-horizontal" role="form" action="/admin/shop/action" method="post">
+          <input type="hidden" name="mode" value="{{mode}}"/>
+          <input type="hidden" name="id" value="{{id}}"/>
+          <div class="form-group">
+            <label for="J_shop_name" class="col-sm-2 control-label">店铺名称：</label>
+            <div class="col-sm-10">
+              <input id="J_shop_name" class="form-control" type="text" name="name" value="{{name}}" placeholder="输入店铺名称"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="J_shop_url"  class="col-sm-2 control-label">店铺网址：</label>
+            <div class="col-sm-10">
+              <input id="J_shop_url" class="form-control" type="text" name="url" value="{{url}}" placeholder="输入店铺网址"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="J_shop_weixin"  class="col-sm-2 control-label">微信号：</label>
+            <div class="col-sm-10">
+              <input id="J_shop_weixin" class="form-control" type="text" name="weixin" value="{{weixin}}" placeholder="输入微信号"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="J_shop_weixinID"  class="col-sm-2 control-label">微信OpenID：</label>
+            <div class="col-sm-10">
+              <input id="J_shop_weixinID" class="form-control" type="text" name="weixinID" value="{{weixinID}}" placeholder="输入微信OpenID"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="J_shop_customer"  class="col-sm-2 control-label">联系人：</label>
+            <div class="col-sm-10">
+              <input id="J_shop_customer" class="form-control" type="text" name="customer" value="{{customer}}" placeholder="输入联系人姓名"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="J_shop_tel"  class="col-sm-2 control-label">电话：</label>
+            <div class="col-sm-10">
+              <input id="J_shop_tel" class="form-control" type="text" name="tel" value="{{tel}}" placeholder="输入联系人电话"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="J_shop_level"  class="col-sm-2 control-label">套餐类型：</label>
+            <div class="col-sm-10">
+              <select name="suite" class="selectpicker" value="{{suite}}">
+                {% for s in suites %}
+                <option value="{{s._id}}">{{s.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="J_shop_template" class="col-sm-2 control-label">店铺模板：</label>
+            <div class="col-sm-10">
+
+              <select name="template" class="selectpicker" value="{{template}}">
+                {% for t in templates %}
+                <option value="{{t._id}}">{{t.name}}</option>
+                {% endfor %}
+              </select>
+
+            </div>
+          </div>
+          {% if mode == 'edit' %}
+          <div class="form-group">
+            <label for="J_shop_creator"  class="col-sm-2 control-label">创建人：</label>
+            <div class="col-sm-10">
+              <input id="J_shop_creator" class="form-control" type="text" readonly name="creator" value="{{creator}}"/>
+            </div>
+          </div>
           {% endif %}
-          </button>
-        </div>
+          <div class="form-group">
+            <label for="J_shop_note" class="col-sm-2 control-label">备注：</label>
+            <div class="col-sm-10">
+              <textarea name="note" class="form-control" rows="5" id="J_shop_note">{{note}}</textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10" style="text-align:right">
+              <a href="/admin/shop" class="btn btn-default">返回店铺列表</a>
+              <button type="submit" class="btn btn-primary">
+              {% if mode == "add" %}
+              确认新增店铺
+              {% else %}
+              确认修改店铺
+              {% endif %}
+              </button>
+            </div>
+          </div>
+        </form>
+
       </div>
-    </form>
+    </div>
+  </div>
+  <!--weixin-->
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseWeixin">
+          订阅设置
+        </a>
+      </h4>
+    </div>
+    <div id="collapseWeixin" class="panel-collapse collapse">
+      <div class="panel-body">
+        <form class="form-horizontal" role="form" action="/admin/shop/action/subscribe" method="post">
+          <input type="hidden" name="mode" value="{{mode}}"/>
+          <input type="hidden" name="id" value="{{id}}"/>
+          <div class="form-group">
+            <label for="J_m_title" class="col-sm-2 control-label">消息标题：</label>
+            <div class="col-sm-10">
+              <input id="J_m_title" class="form-control" type="text" name="m_title" value="{{m_title}}" placeholder="输入消息标题"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="J_m_description"  class="col-sm-2 control-label">消息描述：</label>
+            <div class="col-sm-10">
+              <input id="J_m_description" class="form-control" type="text" name="m_description" value="{{m_description}}" placeholder="输入消息描述"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="J_m_img"  class="col-sm-2 control-label">预览图片：</label>
+            <div class="col-sm-10 clearfix">
+              <input id="J_m_img" class="form-control fileinput-input pull-left" type="text" name="m_img" value="{{m_img}}" placeholder="输入URL或上传"/>
+              
+              <span class="btn pull-right btn-success fileinput-button" data-input="#J_m_img">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>添加图片</span>
+                <input type="file" name="files[]" multiple="">
+              </span>
+              
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10" style="text-align:right">
+              <a href="/admin/shop" class="btn btn-default btn-back-basic">返回店铺列表</a>
+              <button type="submit" class="btn btn-primary">保存订阅设置</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--template-->
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTemplate">
+          模板数据
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTemplate" class="panel-collapse collapse">
+      <div class="panel-body">
+        <form class="form-horizontal" role="form" action="/admin/shop/action/template" method="post">
+          <input type="hidden" name="mode" value="{{mode}}"/>
+          <input type="hidden" name="id" value="{{id}}"/>
+          {{template_form|safe}}
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10" style="text-align:right">
+              <a href="/admin/shop" class="btn btn-default btn-back-basic">返回店铺列表</a>
+              <button type="submit" class="btn btn-primary">保存模板数据</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
+
+{% endblock %}
+{% block script %}
+<script>
+window.g_uploader = {
+  action: '/admin/upload/',
+  callback: function(e, response, input){
+    if(e){
+      return alert('上传失败');
+    }
+    if(!window.JSON){
+      return alert('请使用chrome浏览器');
+    }
+    try{
+      response = JSON.parse(response);
+    }catch(e){
+      return alert(e.toString());
+    }
+    if(response.code !== 200){
+      return alert(response.message);
+    }
+    input.val("http://" + location.host + response.img);
+  }
+}
+</script>
+<script src="/js/uploader.js"></script>
 {% endblock %}

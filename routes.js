@@ -9,10 +9,12 @@ var adminController = require('./controller/adminController');
 var suiteController = require('./controller/suiteController');
 var templateController = require('./controller/templateController');
 var shopController = require('./controller/shopController');
+var uploadController = require('./controller/uploadController');
 
 module.exports = function(app){
   
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use('/upload', express.static(path.join(__dirname, 'upload')));
   app.use('/templates', express.static(path.join(__dirname, 'templates')));
   require('nunjucks/src/globals').basepath = "";
   
@@ -40,6 +42,7 @@ module.exports = function(app){
   app.get('/admin/login', loginController.index)
   app.post('/admin/login', loginController.login);
   app.all('/admin/logout', loginController.logout);
+  app.all('/admin/upload', uploadController.upload);
   
   app.all(['/admin', '/admin/*'], function(req, res, next) {
     if(req.session.admin){
@@ -48,6 +51,7 @@ module.exports = function(app){
     }
     res.redirect('/admin/login');
   });
+  
   
   app.get(['/admin', '/admin/index.html'], function(req, res, next){
     res.redirect('/admin/shop');

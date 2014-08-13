@@ -4,6 +4,7 @@ var express = require('express');
 var moment = require('moment');
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
+var busboy = require('connect-busboy');
 var session = require('express-session');
 var flash = require('connect-flash');
 var wechat = require('./lib/wechat');
@@ -44,6 +45,7 @@ env.express(app);
 app
 .use(bodyParser.json())
 .use(bodyParser.urlencoded({extended:true}))
+.use(busboy())
 .use(cookieParser())
 .use(session({secret:'weishop'}))
 .use(flash())

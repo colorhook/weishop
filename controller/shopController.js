@@ -1,3 +1,7 @@
+var fs = require('fs');
+var path = require('path');
+var nunjucks = require('nunjucks');
+
 var database = require('../model/database');
 var Suite = database.Suite;
 var Template = database.Template;
@@ -101,6 +105,27 @@ exports.edit = function(req, res){
         req.flash('info', err.message);
         return res.render('/admin/shop/edit/'+id);
       }
+      var data;
+      try{
+        data = JSON.parse(shop.data);
+      }catch(err){
+        data = {};
+      }
+      
+      var templateDir = null;
+      var template_form;
+      templates.forEach(function(item){
+        console.log(item, shop.template);
+        if(item._id == shop.template){
+          templateDir = item.path;
+        }
+      });
+      if(templateDir){
+        var tpl = path.normalize(__dirname + '/../templates/' + templateDir + '/form.html');
+       tpl = fs.readFileSync(tpl, 'utf-8');
+        template_form = nunjucks.renderString(tpl, { data: data});
+      }
+
       res.render('admin/shop-edit.html', {
         mode: 'edit',
         id: id,
@@ -116,7 +141,10 @@ exports.edit = function(req, res){
         suite: shop.suite,
         creator: shop.creator,
         template: shop.template,
-        note: shop.note
+        note: shop.note,
+        subscribe: shop.subscribe || {},
+        template_form: template_form,
+        data: data
       });
     });
     

@@ -15,6 +15,7 @@
     "request": "2.36.0",
     "nunjucks": "1.0.5",
     "body-parser": "1.6.1",
+    "connect-busboy": "0.0.1",
     "express-session": "1.7.4",
     "connect-flash": "0.1.1",
     "mongoose": "3.9.0",

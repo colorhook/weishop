@@ -8,7 +8,7 @@ exports.index = function(req, res){
   adminController.loginByToken(req.cookies.admin, req.cookies.lastToken, function(err, admin){
     if(admin){
       req.session.admin = admin;
-      return res.redirect('/admin');
+      return res.redirect('back');
     }
     res.render('admin/login.html', {
       loginError: req.session.loginError
