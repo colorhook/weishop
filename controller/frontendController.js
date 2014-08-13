@@ -54,8 +54,18 @@ exports.index = function(req, res){
       }
       var template_root = '/templates/' + template.path;
       //渲染模板
+      var data;
+      try{
+        data = JSON.parse(shop.data);
+      }catch(err){
+        data = {}
+      }
       env.getTemplate(template.path + '/' + page + '.html', function(err, tmp){
-        var result = tmp.render({template_root: template_root});
+        var result = tmp.render({
+          template_root: template_root,
+          shop: shop,
+          data: data,
+        });
         res.end(result);
       });
     });

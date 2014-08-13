@@ -2,50 +2,6 @@
 {% block head %}
 <link rel='stylesheet' href='/lib/bootstrap/css/bootstrap.min.css'>
 <link rel='stylesheet' href='{{template_root}}/base.css'>
-<style>
-.e-tab {
-	display: -webkit-box;
-	margin: 0;
-	-webkit-box-align: stretch;  
-}
-.e-tabitem {
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff),  color-stop(100%,#ebebeb));
-	border-bottom:solid 1px #cdcdcd;
-	border-left:solid 1px #cdcdcd;
-	font-weight: normal;
-	cursor: pointer;
-	color:#0444;
-	font-weight:bold;
-	padding: 10px 0;  
-	-webkit-box-flex: 1;
-	width:100%;
-	text-align: center;
-	border-right-width: 0;
-	margin: 0;
-  display: block;
-  color:#666;text-decoration: none
-}
-.e-tabitem.hover,.e-tabitem:active,.e-tabitem:focus{
-	color:#222;
-  text-decoration: none;
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#bbb),  color-stop(100%,#ebebeb));
-}
-.e-tabitem:first-child{
-	border-left:none;
-	-webkit-border-radius: 0;
-}
-.e-tabitem:last-child{
-	-webkit-border-radius: 0;
-}
-.e-tabitem.selected{
-	font-weight:bold;
-	font-size:24px;
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fe4905), color-stop(100%,#ffa300));
-}
-
-#footer{min-height: 40px}
-#footer .glyphicon{margin-right:10px}
-</style>
 {% endblock %}
 
 {% block body %}
@@ -55,7 +11,7 @@
       {% for banner in data.banners %}
       <li>
         <a href="{{shop.url}}">
-          <img src="{{banner.img}}">
+          <img src="{{banner}}">
          </a>
       </li>
       {% endfor %}
@@ -71,23 +27,13 @@
 <section id="nav">
   <ul class="fix-float">
     <li>
-      <a href="">
+      <a href="{{shop.url}}">
         <img src="http://www.hzjushi.com/uploads/h/hzpmfe1404354287/f/1/0/9/thumb_53b4c1eb651a8.jpg">
       </a>
     </li>
     <li>
-      <a href="#">
+      <a href="http://webbst.sinaapp.com/kuaidi.html">
        <img src="http://www.hzjushi.com/uploads/h/hzpmfe1404354287/f/c/b/f/thumb_53b4c242748d4.jpg">
-      </a>
-    </li>
-    <li>
-      <a href="">
-        <img src="http://www.hzjushi.com/uploads/h/hzpmfe1404354287/4/9/a/4/thumb_53b4c29d7c604.jpg">
-      </a>
-    </li>
-    <li>
-      <a href="">
-        <img src="http://www.hzjushi.com/uploads/h/hzpmfe1404354287/8/1/f/0/thumb_53b4c2d742eeb.jpg">
       </a>
     </li>
   </ul>
@@ -122,7 +68,7 @@ $(function(){
     }
   });
 });
-document.addEventListener('WeixinJSBridgeReady', function{
+document.addEventListener('WeixinJSBridgeReady', function(){
 	WeixinJSBridge.call('hideToolbar');
 });
 </script>
