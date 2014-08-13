@@ -62,6 +62,8 @@ module.exports = function(app){
   app.get('/admin/shop/edit/:id', shopController.edit);
   app.all('/admin/shop/delete', shopController.delete);
   app.all('/admin/shop/action', shopController.action);
+  app.all('/admin/shop/action/subscribe', shopController.subscribe);
+  app.all('/admin/shop/action/template', shopController.template);
  
   app.get('/admin/suite', suiteController.index);
   app.post('/admin/suite/action', suiteController.action);

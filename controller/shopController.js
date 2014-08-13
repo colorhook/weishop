@@ -115,14 +115,13 @@ exports.edit = function(req, res){
       var templateDir = null;
       var template_form;
       templates.forEach(function(item){
-        console.log(item, shop.template);
         if(item._id == shop.template){
           templateDir = item.path;
         }
       });
       if(templateDir){
         var tpl = path.normalize(__dirname + '/../templates/' + templateDir + '/form.html');
-       tpl = fs.readFileSync(tpl, 'utf-8');
+        tpl = fs.readFileSync(tpl, 'utf-8');
         template_form = nunjucks.renderString(tpl, { data: data});
       }
 
@@ -160,6 +159,127 @@ exports.action = function(req, res){
     exports.update(req, res);
   }
 }
+
+exports.subscribe = function(req, res){
+  if(req.session.admin.role.key < 1){
+    return res.redirect('/admin/permission-error');
+  }
+  
+  var id = req.params.id || req.param('id');
+  var title = req.param('title');
+  var description = req.param('description');
+  var img = req.param('img');
+  
+  var info;
+  
+  if(!id){
+    req.flash('tab', '');
+    req.flash('info', '请先创建店铺');
+    return res.redirect('/admin/shop/add');
+  }
+  if(!title){
+    info = '订阅标题不能为空';
+  }else if(!description){
+    info = '订阅描述不能为空';
+  }else if(!img){
+    info = '订阅预览图不能为空';
+  }
+  if(info){
+    req.flash('tab', 'subscribe');
+    req.flash('info', info);
+    return res.redirect('/admin/shop/edit/'+id+'#subscribe');
+  }
+  Shop.findById(id, function (err, shop) {
+    if(!shop){
+      req.flash('info', '修改出错！该店铺不存在');
+      return res.redirect('/admin/shop');
+    }
+    var $set = {
+      subscribe: {
+        title: title,
+        description: description,
+        img: img
+      }
+    }
+
+    shop.update({$set: $set}, function(err){
+      if(err){
+        req.flash('info', err.message);
+      }
+      return res.redirect('/admin/shop/edit/'+id);
+    })
+  });
+}
+
+exports.template = function(req, res){
+  console.log('template');
+  if(req.session.admin.role.key < 1){
+    return res.redirect('/admin/permission-error');
+  }
+  var id = req.params.id || req.param('id');
+  
+  if(!id){
+    req.flash('tab', '');
+    req.flash('info', '请先创建店铺');
+    return res.redirect('/admin/shop/add');
+  }
+  
+  Shop.findById(id, function (err, shop) {
+    if(!shop){
+      req.flash('info', '修改出错！该店铺不存在');
+      return res.redirect('/admin/shop');
+    }
+    var template = shop.template;
+    var templateDir;
+    
+    //save
+    function saveTemplate(){
+      var data = req.params.data || {};
+      shop.update({$set: {data: JSON.stringify(data)}}, function(err){
+        if(err){
+          req.flash('info', err.message);
+        }
+        return res.redirect('/admin/shop/edit/'+id);
+      });
+    }
+    
+    //get templates
+    getTemplates(function(e, templates){
+      templates = templates || [];
+      templates.forEach(function(item){console.log(item);
+        if(item._id == template){
+          templateDir = item.path;
+        }
+      });
+      
+      console.log("templateDir:",templateDir);
+      if(!templateDir){
+        req.flash('info', '店铺模板设置有错，请返回更改');
+        req.flash('tab', '');
+        return res.redirect('/admin/shop/edit/' + id);
+      }
+      
+      var plugin;
+      try{
+        plugin = require(__dirname + '/../templates/' + templateDir + '/plugin');
+      }catch(err){
+        console.log(err);
+        req.flash('info', '店铺模板设置有错，请返回更改');
+        req.flash('tab', '');
+        return res.redirect('/admin/shop/edit/' + id);
+      }
+      plugin.submit(req, function(e){
+        if(e){
+          req.flash('info', e.message || e);
+          req.flash('tab', 'template');
+          return res.redirect('/admin/shop/edit/' + id);
+        }
+        saveTemplate();
+      });
+    });
+  });
+}
+
 exports.insert = function(req, res){
   if(req.session.admin.role.key < 1){
     return res.redirect('/admin/permission-error');

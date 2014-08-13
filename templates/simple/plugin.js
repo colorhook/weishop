@@ -1,4 +1,4 @@
-exports.submit = function(req, res, next){
+exports.submit = function(req, callback){
   var data = {};
   var company = req.param('company');
   var banner1 = req.param('banner1');
@@ -17,5 +17,5 @@ exports.submit = function(req, res, next){
   data.company = company;
   data.banners = banners;
   req.params.data = data;
-  next();
+  callback();
 }

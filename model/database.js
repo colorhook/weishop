@@ -46,6 +46,7 @@ var Shop = mongoose.model('Shop', {
     description: String,
     img: String
   },
+  data: String,
   note: String
 });
 
