@@ -1,0 +1,104 @@
+{% set nav = "operation" %}
+{% extends "admin/base.html" %}
+{% block body %}
+
+<!-- remove Modal -->
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <form method="post" action="/admin/operation/delete">
+    <input class="id" name="id" type="hidden"/>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title">删除操作记录</h4>
+        </div>
+        <div class="modal-body">
+          <p>该操作将永久删除该条操作数据，确认要继续执行？</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary btn-submit">确定</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">操作记录</h3>
+  </div>
+  <div class="panel-body table-responsive table-hover">
+    <table class="table table-bordered">
+      <thead>
+          <tr>
+            <th>用户</th>
+            <th>详情</th>
+            <th>IP</th>
+            <th>时间</th>
+            {% if admin.role.key >= 3 %}
+            <th>操作</th>
+            {% endif %}
+          </tr>
+      </thead>
+      <tbody>
+          {% for item in list %}
+          <tr data-id="{{item._id}}">
+            <th>{{item.username}}</th>
+            <th>{{item.action}}</th>
+            <th>{{item.ip}}</th>
+            <th>{{item.time|time}}</th>
+            {% if admin.role.key >= 3 %}
+            <th>
+              <a class="delete" data-id="{{item._id}}" href="#">删除</a>
+            </th>
+            {% endif %}
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+    
+    
+    {% if size > 1 %}
+    <ul class="pagination">
+      {% if page == 1 %}
+      <li class="disabled"><a href="#">&laquo;</a></li>
+      {% else %}
+      <li><a href="/admin/operation?page={{ page - 1 }}">&laquo;</a></li>
+      {% endif %}
+
+      {% for i in range(1, size+1) -%}
+        {% if i == page %}
+        <li class="active"><a href="#">{{i}}</a></li>
+        {% else %}
+        <li><a href="/admin/operation?page={{i}}">{{i}}</a></li>
+        {% endif %}
+      {%- endfor %}
+      
+      {% if page == size %}
+      <li class="disabled"><a href="#">&raquo;</a></li>
+      {% else %}
+      <li><a href="/admin/operation?page={{ page + 1 }}">&raquo;</a></li>
+      {% endif %}
+      
+    </ul>
+    {% endif %}
+    
+  </div>
+ 
+    
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+$(function(){
+  var removeModal = $("#removeModal");
+  $(".table").delegate(".delete", "click", function(e){
+    e.preventDefault();
+    removeModal.find(".id").val($(e.currentTarget).parents('tr').attr('data-id'));
+    removeModal.modal();
+  });
+});
+</script>
+{% endblock %}

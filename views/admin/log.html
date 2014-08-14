@@ -1,0 +1,57 @@
+{% set nav = "operation" %}
+{% extends "admin/base.html" %}
+{% block body %}
+
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">日志列表</h3>
+  </div>
+  <div class="panel-body table-responsive table-hover">
+    <table class="table table-bordered">
+      <thead>
+          <tr>
+            <th>文件</th>
+            <th>日期</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for item in list %}
+          <tr>
+            <th><a href="/admin/log/file/{{item.file}}" target="_blank">{{item.file}}</a></th>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+    
+    
+    {% if size > 1 %}
+    <ul class="pagination">
+      {% if page == 1 %}
+      <li class="disabled"><a href="#">&laquo;</a></li>
+      {% else %}
+      <li><a href="/admin/log?page={{ page - 1 }}">&laquo;</a></li>
+      {% endif %}
+
+      {% for i in range(1, size+1) -%}
+        {% if i == page %}
+        <li class="active"><a href="#">{{i}}</a></li>
+        {% else %}
+        <li><a href="/admin/log?page={{i}}">{{i}}</a></li>
+        {% endif %}
+      {%- endfor %}
+      
+      {% if page == size %}
+      <li class="disabled"><a href="#">&raquo;</a></li>
+      {% else %}
+      <li><a href="/admin/log?page={{ page + 1 }}">&raquo;</a></li>
+      {% endif %}
+      
+    </ul>
+    {% endif %}
+    
+  </div>
+ 
+    
+</div>
+{% endblock %}

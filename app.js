@@ -12,6 +12,7 @@ var config = require('./config');
 var routes = require('./routes');
 var nunjucks = require('nunjucks');
 var logger = require('./lib/logger');
+var operation = require('./lib/operation');
 
 require('./model/database');
 
@@ -49,6 +50,7 @@ app
 .use(cookieParser())
 .use(session({secret:'weishop'}))
 .use(flash())
+.use(operation())
 .use(function(err, req, res, next) {
   res.json(err);
   console.error('[%s][%s] Express handle exception: [%s]', new Date(), process.pid, err);

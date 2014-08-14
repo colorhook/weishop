@@ -55,6 +55,16 @@ html,body{width:100%;height:100%;}
           <li{% if nav == "admin" %} class="active"{% endif %}>
               <a href="/admin/admin">系统管理</a>
           </li>
+          {% if admin.role.key >= 2 %}
+          <li{% if nav == "operation" %} class="active"{% endif %}>
+              <a href="/admin/operation">操作记录</a>
+          </li>
+          {% endif %}
+          {% if admin.role.key >= 3 %}
+          <li{% if nav == "log" %} class="active"{% endif %}>
+              <a href="/admin/log">系统日志</a>
+          </li>
+          {% endif %}
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="hidden-xs"><a href="/admin/admin">{{admin.username}}</a></li>

@@ -10,6 +10,8 @@ var suiteController = require('./controller/suiteController');
 var templateController = require('./controller/templateController');
 var shopController = require('./controller/shopController');
 var uploadController = require('./controller/uploadController');
+var operationController = require('./controller/operationController');
+var logController = require('./controller/logController');
 
 module.exports = function(app){
   
@@ -78,6 +80,12 @@ module.exports = function(app){
   app.post('/admin/admin/add', adminController.add);
   app.post('/admin/admin/edit', adminController.edit);
   
+  app.get('/admin/operation', operationController.index);
+  app.post('/admin/operation/delete', operationController.delete);
+  
+  app.get('/admin/log', logController.index);
+  app.post('/admin/file/:file', logController.file);
+  
   app.get('/config', function(req, res) {
     res.json(config);
   });
@@ -87,7 +95,7 @@ module.exports = function(app){
   });
     
   app.all('*', function(req, res) {
-    res.send(404, '404');
+    res.redirect('/admin/error');
   });
   
 };

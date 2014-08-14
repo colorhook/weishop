@@ -8,6 +8,8 @@ exports.index = function(req, res){
   adminController.loginByToken(req.cookies.admin, req.cookies.lastToken, function(err, admin){
     if(admin){
       req.session.admin = admin;
+      res.locals.admin = admin;
+      res.saveOperation('通过token登录');
       return res.redirect('back');
     }
     res.render('admin/login.html', {
@@ -31,6 +33,7 @@ exports.login = function(req, res){
       delete req.session.loginError;
       req.session.admin = admin;
       res.locals.admin = admin;
+      res.saveOperation('通过用户名密码登录');
       if(remember){
         res.cookie('admin', username, {maxAge: 7 * 24 * 60 * 60 * 1000});
         res.cookie('lastToken', sid,  {maxAge: 7 * 24 * 60 * 60 * 1000});

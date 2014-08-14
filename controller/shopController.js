@@ -8,12 +8,21 @@ var Template = database.Template;
 var Shop = database.Shop;
 
 
+/**
+获取所有模板
+**/
 function getTemplates(callback){
   Template.find({}, callback); 
 }
+/**
+获取所有主题
+**/
 function getSuites(callback){
   Suite.find({}, callback);
 }
+/**
+获取所有主题和模板
+**/
 function getSuitesAndTemplates(callback){
   getSuites(function(err, suites){
     if(err){
@@ -28,7 +37,9 @@ function getSuitesAndTemplates(callback){
     }
   });
 }
-
+/**
+店铺首页渲染
+**/
 exports.index = function(req, res){
   var page = req.params.page || req.param('page');
   page = Number(page);
@@ -65,6 +76,9 @@ exports.index = function(req, res){
   });
 }
 
+/**
+新增店铺页面渲染
+**/
 exports.add = function(req, res){
   getSuitesAndTemplates(function(err, suites, templates){
     if(err){
@@ -79,13 +93,20 @@ exports.add = function(req, res){
   });
 }
 
+/**
+编辑页面渲染
+**/
 exports.edit = function(req, res){
-  var id = req.params.id || req.param('id');
-
+  
   if(req.session.admin.role.key < 1){
     return res.redirect('/admin/permission-error');
   }
   
+  var id = req.params.id || req.param('id');
+  var tab = req.params.tab || req.param('tab') || req.flash('tab');
+  if(tab != 'template' && tab != 'weixin'){
+    tab = 'basic';
+  }
   if(!id){
     req.flash('info', '请指定店铺ID');
     req.flash('backurl', '/admin/shop');
@@ -127,6 +148,7 @@ exports.edit = function(req, res){
 
       res.render('admin/shop-edit.html', {
         mode: 'edit',
+        tab: tab,
         id: id,
         info: req.flash('info'),
         name: shop.name,
@@ -151,7 +173,9 @@ exports.edit = function(req, res){
 }
 
 
-
+/**
+增加或编辑表单请求
+**/
 exports.action = function(req, res){
   if(req.param('mode') === 'add'){
     exports.insert(req, res);
@@ -160,6 +184,9 @@ exports.action = function(req, res){
   }
 }
 
+/**
+提交订阅
+**/
 exports.subscribe = function(req, res){
   if(req.session.admin.role.key < 1){
     return res.redirect('/admin/permission-error');
@@ -187,7 +214,7 @@ exports.subscribe = function(req, res){
   if(info){
     req.flash('tab', 'subscribe');
     req.flash('info', info);
-    return res.redirect('/admin/shop/edit/'+id+'#subscribe');
+    return res.redirect('/admin/shop/edit/'+id+'?step=subscribe');
   }
   Shop.findById(id, function (err, shop) {
     if(!shop){
@@ -206,13 +233,16 @@ exports.subscribe = function(req, res){
       if(err){
         req.flash('info', err.message);
       }
-      return res.redirect('/admin/shop/edit/'+id);
+      res.saveOperation('修改了weixin='+shop.weixin +',id='+id+'的微信订阅信息');
+      return res.redirect('/admin/shop/edit/'+id+"?step=template");
     })
   });
 }
 
+/**
+提交模板
+**/
 exports.template = function(req, res){
-  console.log('template');
   if(req.session.admin.role.key < 1){
     return res.redirect('/admin/permission-error');
   }
@@ -239,6 +269,7 @@ exports.template = function(req, res){
         if(err){
           req.flash('info', err.message);
         }
+        res.saveOperation('修改了weixin='+shop.weixin +',id='+id+'的模板信息');
         return res.redirect('/admin/shop/edit/'+id);
       });
     }
@@ -263,7 +294,6 @@ exports.template = function(req, res){
       try{
         plugin = require(__dirname + '/../templates/' + templateDir + '/plugin');
       }catch(err){
-        console.log(err);
         req.flash('info', '店铺模板设置有错，请返回更改');
         req.flash('tab', '');
         return res.redirect('/admin/shop/edit/' + id);
@@ -280,6 +310,9 @@ exports.template = function(req, res){
   });
 }
 
+/**
+新增店铺
+**/
 exports.insert = function(req, res){
   if(req.session.admin.role.key < 1){
     return res.redirect('/admin/permission-error');
@@ -331,10 +364,14 @@ exports.insert = function(req, res){
     if(err){
       req.flash('info', err.message);
     }
+    res.saveOperation('增加了weixin='+weixin+'的店铺');
     return res.redirect('/admin/shop');
   });
 }
 
+/**
+更新店铺
+**/
 exports.update = function(req, res){
   if(req.session.admin.role.key < 1){
     return res.redirect('/admin/permission-error');
@@ -380,7 +417,7 @@ exports.update = function(req, res){
       req.flash('info', '修改出错！该店铺不存在');
       return res.redirect('admin/shop');
     }
-
+    var oldWeixin = shop.weixin;
     var $set = {
       name: name,
       url: url,
@@ -392,16 +429,22 @@ exports.update = function(req, res){
       template: template,
       note: note
     }
-
+    if(oldWeixin != weixin){
+      res.saveOperation('更新了id='+id+'的店铺，weixin由' + oldWeixin + '变为' + weixin);
+    }
+    res.saveOperation('更新了id='+id+'的店铺');
     shop.update({$set: $set}, function(err){
       if(err){
         req.flash('info', err.message);
       }
       return res.redirect('/admin/shop');
-    })
+    });
   });
 }
 
+/**
+删除店铺
+**/
 exports.delete = function(req, res){
   var id = req.param('id');
   if(!id){
@@ -417,10 +460,12 @@ exports.delete = function(req, res){
         req.flash('info', "该店铺不是你创建的，若要删除请联系管理员");
         return res.redirect('/admin/shop');
       }
+      var weixin = shop.weixin;
       shop.remove(function(err){
         if(err){
           req.flash('info', err.message);
         }
+        res.saveOperation('删除了weixin='+weixin+'的店铺');
         return res.redirect('/admin/shop');
       });
     }else{
