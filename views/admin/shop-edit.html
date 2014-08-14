@@ -59,7 +59,7 @@
         </a>
       </h4>
     </div>
-    <div id="collapseBasic" class="panel-collapse collapse{% if tab =='basic' %}in{% endif %}">
+    <div id="collapseBasic" class="panel-collapse collapse{% if tab =='basic' or mode =='add' %}in{% endif %}">
       <div class="panel-body">
         <form class="form-horizontal" role="form" action="/admin/shop/action" method="post">
           <input type="hidden" name="mode" value="{{mode}}"/>
@@ -140,11 +140,7 @@
             <div class="col-sm-offset-2 col-sm-10" style="text-align:right">
               <a href="/admin/shop" class="btn btn-default">返回店铺列表</a>
               <button type="submit" class="btn btn-primary">
-              {% if mode == "add" %}
-              保存并去设置微信推送
-              {% else %}
-              确认修改店铺
-              {% endif %}
+              保存并进行下一步
               </button>
             </div>
           </div>

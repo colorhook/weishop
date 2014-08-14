@@ -214,7 +214,7 @@ exports.subscribe = function(req, res){
   if(info){
     req.flash('tab', 'subscribe');
     req.flash('info', info);
-    return res.redirect('/admin/shop/edit/'+id+'?step=subscribe');
+    return res.redirect('/admin/shop/edit/'+id+'?tab=weixin');
   }
   Shop.findById(id, function (err, shop) {
     if(!shop){
@@ -234,7 +234,7 @@ exports.subscribe = function(req, res){
         req.flash('info', err.message);
       }
       res.saveOperation('修改了weixin='+shop.weixin +',id='+id+'的微信订阅信息');
-      return res.redirect('/admin/shop/edit/'+id+"?step=template");
+      return res.redirect('/admin/shop/edit/'+id+"?tab=weixin");
     })
   });
 }
@@ -270,7 +270,7 @@ exports.template = function(req, res){
           req.flash('info', err.message);
         }
         res.saveOperation('修改了weixin='+shop.weixin +',id='+id+'的模板信息');
-        return res.redirect('/admin/shop/edit/'+id);
+        return res.redirect('/admin/shop/edit/' + id + '?tab=template');
       });
     }
     
@@ -287,7 +287,7 @@ exports.template = function(req, res){
       if(!templateDir){
         req.flash('info', '店铺模板设置有错，请返回更改');
         req.flash('tab', '');
-        return res.redirect('/admin/shop/edit/' + id);
+        return res.redirect('/admin/shop/edit/' + id + '?tab=basic');
       }
       
       var plugin;
@@ -296,13 +296,13 @@ exports.template = function(req, res){
       }catch(err){
         req.flash('info', '店铺模板设置有错，请返回更改');
         req.flash('tab', '');
-        return res.redirect('/admin/shop/edit/' + id);
+        return res.redirect('/admin/shop/edit/' + id + '?tab=basic');
       }
       plugin.submit(req, function(e){
         if(e){
           req.flash('info', e.message || e);
           req.flash('tab', 'template');
-          return res.redirect('/admin/shop/edit/' + id);
+          return res.redirect('/admin/shop/edit/' + id + '?tab=template');
         }
         saveTemplate();
       });
@@ -355,17 +355,18 @@ exports.insert = function(req, res){
     url: url,
     customer: customer,
     weixin: weixin,
+    weixinID: weixinID,
     tel: tel,
     suite: suite,
     template: template,
     creator: creator,
     note: note
-  }).save(function(err){
+  }).save(function(err, shop){
     if(err){
       req.flash('info', err.message);
     }
-    res.saveOperation('增加了weixin='+weixin+'的店铺');
-    return res.redirect('/admin/shop');
+    res.saveOperation('增加了weixin='+weixin+',id='+shop.id+'的店铺');
+    return res.redirect('/admin/shop/edit/'+shop.id + '?tab=weixin');
   });
 }
 
@@ -432,12 +433,12 @@ exports.update = function(req, res){
     if(oldWeixin != weixin){
       res.saveOperation('更新了id='+id+'的店铺，weixin由' + oldWeixin + '变为' + weixin);
     }
-    res.saveOperation('更新了id='+id+'的店铺');
+    res.saveOperation('更新了weixin='+weixin+',id='+id+'的店铺');
     shop.update({$set: $set}, function(err){
       if(err){
         req.flash('info', err.message);
       }
-      return res.redirect('/admin/shop');
+      return res.redirect('/admin/shop/edit/'+id+"?tab=weixin");
     });
   });
 }
