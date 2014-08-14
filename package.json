@@ -20,7 +20,7 @@
     "connect-flash": "0.1.1",
     "mongoose": "3.9.0",
     "wechat": "0.8.9",
-    "filutil": "1.1.1"
+    "fileutil": "1.1.1"
   },
   "devDependencies": {
     "jshint": "2.5.1",
