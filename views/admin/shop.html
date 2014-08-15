@@ -26,7 +26,11 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">店铺列表<a style="color:#fff" href="/admin/shop/add" id="J_shop_add" class="btn btn-primary btn-xs pull-right">增加</a></h3>
+    <h3 class="panel-title">店铺列表
+      {% if admin.role.key >= 1 %}
+      <a style="color:#fff" href="/admin/shop/add" id="J_shop_add" class="btn btn-primary btn-xs pull-right">增加</a>
+      {% endif %}
+    </h3>
   </div>
   <div class="panel-body table-responsive table-hover">
     <table class="table table-bordered table-hover">
@@ -55,8 +59,10 @@
             <th>{{item.templateName}}</th>
             <th>{{item.creator}}</th>
             <th>
+              {% if admin.role.key >= 1 %}
               <a href="/admin/shop/edit/{{item._id}}">编辑</a>
-              {% if admin.role.key >= 2 %}
+              {% endif %}
+              {% if admin.role.key >= 2 or admin.username == item.creator %}
               <a class="delete" data-id="{{item._id}}" href="#">删除</a>
               {% endif %}
             </th>

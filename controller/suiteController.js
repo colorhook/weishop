@@ -57,14 +57,25 @@ exports.action = function(req, res){
   var price = req.param('price');
   var note = req.param('note');
   
+  
   if(req.session.admin.role.key < 2){
     logger.debug('套餐处理权限不够,username:'+req.session.admin.username);
     return res.redirect('/admin/permission-error');
+  }
+  
+  price = parseFloat(price);
+  if(isNaN(price)){
+    req.flash('info', '请输入正确的价格');
+    return res.redirect('/admin/suite');
   }
 
   if(!id){
     insert(name, price, note, function(err, data){
       if(err){
+        logger.error('新增店铺失败:'+err.message);
+        req.flash('info', '添加失败！请重试'); 
+      }
+      if(!data){
         logger.error('新增店铺失败:'+err.message);
         req.flash('info', '添加失败！请重试'); 
       }

@@ -79,7 +79,11 @@
 <!-- suite list -->
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">套餐管理<button type="button" id="J_suite_add" class="btn btn-primary btn-xs pull-right">增加</button></h3>
+    <h3 class="panel-title">套餐管理
+      {% if admin.role.key >= 2 %}
+      <button type="button" id="J_suite_add" class="btn btn-primary btn-xs pull-right">增加</button>
+      {% endif %}
+    </h3>
     
   </div>
   <div class="panel-body table-responsive">

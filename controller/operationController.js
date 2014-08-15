@@ -4,7 +4,7 @@
 var fs = require('fs');
 var path = require('path');
 var nunjucks = require('nunjucks');
-
+var logger = require('../lib/logger');
 var database = require('../model/database');
 var Operation = database.Operation;
 
@@ -28,6 +28,7 @@ exports.index = function(req, res){
       req.flash('获取操作记录失败');
       return res.redirect('/admin/error');
     }
+    data = data.reverse();
     count = data.length;
     size = Math.ceil(count/pageCount) || 1;
     var list = data.slice((page - 1) * pageCount, (page - 1) * pageCount + pageCount);

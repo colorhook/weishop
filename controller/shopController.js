@@ -4,7 +4,7 @@
 var fs = require('fs');
 var path = require('path');
 var nunjucks = require('nunjucks');
-
+var logger = require('../lib/logger');
 var database = require('../model/database');
 var Suite = database.Suite;
 var Template = database.Template;
@@ -99,6 +99,10 @@ exports.index = function(req, res){
 @param {HttpResponse} res
 **/
 exports.add = function(req, res){
+  if(req.session.admin.role.key < 1){
+    logger.debug('新增店铺权限不够,username:'+req.session.admin.username);
+    return res.redirect('/admin/permission-error');
+  }
   getSuitesAndTemplates(function(err, suites, templates){
     if(err){
       req.flash('info', '获取模板和套餐失败');

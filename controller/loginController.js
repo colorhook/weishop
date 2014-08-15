@@ -64,7 +64,8 @@ exports.login = function(req, res){
 @method logout
 **/
 exports.logout = function(req, res){
-  if(!req.session.admin){
+  var admin = req.session.admin;
+  if(!admin){
     return;
   }
   logger.info(admin.username + '登出系统');
