@@ -2,12 +2,11 @@
 
 ## TODO
 
-* mongodb connection failback
+* <del>mongodb connection failback</del>
 * mongodb connection verification
-* mongodb status monitor
-* global exception catch
-* log write and read
-* business data monitor
-* server status monitor
-* css js combo
-* document
+* <del>global exception catch</del>
+* <del>log write and read</del>
+* <del>business data monitor</del>
+* <del>server status monitor</del>
+* <del>css js combo</del>
+* <del>document</del>

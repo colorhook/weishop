@@ -1,4 +1,6 @@
 'use strict';
+var fs = require('fs');
+var os = require('os');
 var path = require('path');
 var express = require('express');
 var config = require('./config');
@@ -13,12 +15,59 @@ var uploadController = require('./controller/uploadController');
 var operationController = require('./controller/operationController');
 var logController = require('./controller/logController');
 
+
 module.exports = function(app){
   
   app.use(express.static(path.join(__dirname, 'public')));
   app.use('/upload', express.static(path.join(__dirname, 'upload')));
   app.use('/templates', express.static(path.join(__dirname, 'templates')));
   require('nunjucks/src/globals').basepath = "";
+  app.get(['/combo', /\/combo.*/], function(req, res){
+    var url = req.url;
+    url = url.replace(/^\/combo(\/)?/, '');
+    
+    var dir;
+    var files = [];
+    if(url.indexOf("??") !== -1){
+      dir = url.split("??")[0] || "";
+      files = url.split("??")[1].split(",");
+    }else{
+      dir = "";
+      files = [url];
+    }
+    var topDirMap = {
+      "css": __dirname + "/public/css",
+      "js": __dirname + "/public/js",
+      "lib": __dirname + "/public/lib",
+      "templates": __dirname + "/templates"
+    }
+    var filterFiles = [];
+    files.forEach(function(item){
+      item = path.normalize(dir + "/" + item);
+      var splits = item.match(/\/?([^\/]*)\/(.*)/);
+      if(!splits){
+        return;
+      }
+      var topDir = splits[1];
+      var f = splits[2];
+      topDir = topDirMap[topDir];
+      if(!topDir){
+        return;
+      }
+      f = path.normalize(topDir + "/" + f);
+      if(filterFiles.indexOf(f) == -1){
+        filterFiles.push(f);
+      }
+    });
+    var html = []
+    filterFiles.forEach(function(file){
+      try{
+        html.push(fs.readFileSync(file, 'utf-8'));
+      }catch(err){
+      }
+    });
+    res.end(html.join(os.EOL));
+  });
   
   app.get('/shop/:shop', frontendController.index);
   
@@ -41,9 +90,24 @@ module.exports = function(app){
     res.render('index.html');
   });
   
-  app.get('/admin/login', loginController.index)
-  app.post('/admin/login', loginController.login);
+  app.get('/favicon.ico', function(req, res) {
+    res.redirect(301, '/public/favicon.ico');
+  });
+  
+  app.use(function(req, res, next){
+    if(app.locals.databaseError){
+      if(req.path == '/admin/error'){
+        return next();
+      }
+      req.flash('info', '数据库连接不上，请刷新或稍后再试');
+      return res.redirect('/admin/error')
+    }
+    next();
+  })
+  
+  app.get('/admin/login', loginController.index);
   app.all('/admin/logout', loginController.logout);
+  app.post('/admin/login', loginController.login);
   app.all('/admin/upload', uploadController.upload);
   
   app.all(['/admin', '/admin/*'], function(req, res, next) {
@@ -84,15 +148,7 @@ module.exports = function(app){
   app.post('/admin/operation/delete', operationController.delete);
   
   app.get('/admin/log', logController.index);
-  app.post('/admin/file/:file', logController.file);
-  
-  app.get('/config', function(req, res) {
-    res.json(config);
-  });
-
-  app.get('/favicon.ico', function(req, res) {
-    res.redirect(301, '/public/favicon.ico');
-  });
+  app.get('/admin/log/file/:file', logController.file);
     
   app.all('*', function(req, res) {
     res.redirect('/admin/error');

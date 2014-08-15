@@ -92,7 +92,7 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="J_edit_user">用户名：</label>
-            <input name="username" type="text" class="form-control" id="J_edit_user" placeholder="输入用户名">
+            <input name="username" type="text" readonly class="form-control" id="J_edit_user">
           </div>
           <div class="form-group">
             <label for="J_edit_old_pass">旧密码：</label>
@@ -123,6 +123,44 @@
     </div>
   </form>
 </div>
+
+{% if sys and admin.role.key >= 2 %}
+<!-- system info -->
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      系统信息
+    </h3>
+  </div>
+  <div class="panel-body table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>CPU</th>
+          <th>MEMORY</th>
+          <th>vsz</th>
+          <th>rss</th>
+          <th>usr</th>
+          <th>sys</th>
+          <th>gue</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{sys.cpuAvg}}%</td>
+          <td>{{sys.memAvg}}%</td>
+          <td>{{sys.vsz}}</td>
+          <td>{{sys.rss}}</td>
+          <td>{{sys.usr}}</td>
+          <td>{{sys.sys}}</td>
+          <td>{{sys.gue}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
 <!-- manage list -->
 <div class="panel panel-default">
   <div class="panel-heading">

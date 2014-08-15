@@ -1,3 +1,6 @@
+/**
+@author hk1k
+**/
 'use strict';
 var path = require('path');
 var express = require('express');
@@ -13,6 +16,7 @@ var routes = require('./routes');
 var nunjucks = require('nunjucks');
 var logger = require('./lib/logger');
 var operation = require('./lib/operation');
+
 
 require('./model/database');
 
@@ -65,14 +69,15 @@ routes(app);
 //listen
 module.exports = (function() {
   app.listen(config.port, function() {
-      console.log('[%s] app start : %s', new Date(), config.port);
+      logger.log('[%s] app start : %s', new Date(), config.port);
   });
   return app;
 })();
 
-//exception
-//process.on('uncaughtException', function(err) {
-//  console.error('[%s][%s] Caught exception: [%s]', new Date(), process.pid, err);
-//  logger.error('uncaughtException:' + process.pid);
-//  process.exit(1);
-//});
+/*/exception
+process.on('uncaughtException', function(err) {
+  console.error('[%s][%s] Caught exception: [%s]', new Date(), process.pid, err);
+  logger.error('uncaughtException:' + process.pid);
+  process.exit(1);
+});
+//*/

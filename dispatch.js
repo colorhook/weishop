@@ -1,3 +1,6 @@
+/**
+@author hk1k
+**/
 'use strict';
 
 var path = require("path");
