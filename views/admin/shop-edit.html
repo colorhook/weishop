@@ -1,10 +1,10 @@
 {% set nav = "shop" %}
 {% set title = "店铺" %}
 {% extends "admin/base.html" %}
-{% block body %}
+{% block head %}
 <style>
-.panel-heading{padding 0}
-.panel-heading a{display:block;padding 10px 15px}
+.panel-heading{padding:0}
+.panel-heading a{display:block;padding:10px 15px}
 .panel-heading a:hover,.panel-heading a:focus{text-decoration: none}
 .fileinput-button {
   position: relative;
@@ -26,7 +26,8 @@
   .fileinput-input{width:60%}
 }
 </style>
-
+{% endblock %}
+{% block body %}
 {% if info and info != "" %}
 <div class="alert alert-danger alert-dismissible fade in" role="alert">
   <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
