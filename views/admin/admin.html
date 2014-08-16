@@ -1,7 +1,7 @@
 {% set nav = "admin" %}
+{% set title = "系统管理" %}
 {% extends "admin/base.html" %}
 {% block body %}
-
 {% if addInfo and addInfo != "" %}
 <div class="alert alert-danger alert-dismissible fade in" role="alert">
   <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
@@ -9,7 +9,6 @@
   <p>{{ addInfo }}</p>
 </div>
 {% endif %}
-
 <!-- Add Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog"aria-hidden="true">
   <form role="form" method="post" action="/admin/admin/add">

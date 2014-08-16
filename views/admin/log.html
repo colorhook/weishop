@@ -1,10 +1,10 @@
 {% set nav = "log" %}
+{% set title = "系统日志" %}
 {% extends "admin/base.html" %}
 {% block body %}
 <style>
 .btn-group .glyphicon{margin:0 4px}
 </style>
-
 {% if type == 'info' %}
 {% set style = 'info' %}
 {% elif type == 'warn' %}

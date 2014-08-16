@@ -74,7 +74,7 @@ module.exports = (function() {
   return app;
 })();
 
-//exception
+/*/exception
 process.on('uncaughtException', function(err) {
   console.error('[%s][%s] Caught exception: [%s]', new Date(), process.pid, err);
   logger.error('uncaughtException:' + process.pid);

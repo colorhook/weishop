@@ -1,4 +1,5 @@
 {% set nav = "shop" %}
+{% set title = "店铺" %}
 {% extends "admin/base.html" %}
 {% block body %}
 <style>
@@ -25,9 +26,6 @@
   .fileinput-input{width:60%}
 }
 </style>
-<script type="text/data">
-{{templates|json|safe}}
-</script>
 
 {% if info and info != "" %}
 <div class="alert alert-danger alert-dismissible fade in" role="alert">
@@ -59,7 +57,7 @@
         </a>
       </h4>
     </div>
-    <div id="collapseBasic" class="panel-collapse collapse{% if tab =='basic' or mode =='add' %}in{% endif %}">
+    <div id="collapseBasic" class="panel-collapse collapse {% if tab =='basic' or mode =='add' %}in{% endif %}">
       <div class="panel-body">
         <form class="form-horizontal" role="form" action="/admin/shop/action" method="post">
           <input type="hidden" name="mode" value="{{mode}}"/>
@@ -212,6 +210,9 @@
     </div>
     <div id="collapseTemplate" class="panel-collapse collapse {% if tab =='template' %}in{% endif %}">
       <div class="panel-body">
+        {% if template_form.error %}
+        <h2>{{template_form.error}}</h2>
+        {% else %}
         <form class="form-horizontal" role="form" action="/admin/shop/action/template" method="post">
           <input type="hidden" name="mode" value="{{mode}}"/>
           <input type="hidden" name="id" value="{{id}}"/>
@@ -223,6 +224,7 @@
             </div>
           </div>
         </form>
+        {% endif %}
       </div>
     </div>
   </div>

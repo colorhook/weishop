@@ -1,7 +1,7 @@
 {% set nav = "operation" %}
+{% set title = "操作记录" %}
 {% extends "admin/base.html" %}
 {% block body %}
-
 <!-- remove Modal -->
 <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-hidden="true">
   <form method="post" action="/admin/operation/delete">
@@ -23,7 +23,6 @@
     </div>
   </form>
 </div>
-
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">操作记录</h3>

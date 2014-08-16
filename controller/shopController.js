@@ -178,12 +178,14 @@ exports.edit = function(req, res){
           tpl = fs.readFileSync(tpl, 'utf-8');
         }catch(err){
           tpl = null;
+          template_form = {error: '读取模板表单失败'};
           logger.error('读取模板表单失败:' + shop.template + '@'+templateDir);
         }
         if(tpl){
           try{
             template_form = nunjucks.renderString(tpl, { data: data});
           }catch(err){
+            template_form = {error:'渲染模板表单失败'};
             logger.error('渲染模板表单失败:' + shop.template + '@'+templateDir);
           }
         }

@@ -1,7 +1,7 @@
 <div class="form-group">
   <label for="J_banner_img1"  class="col-sm-2 control-label">焦点图1：</label>
   <div class="col-sm-10 clearfix">
-    <input id="J_banner_img1" class="form-control fileinput-input pull-left" type="text" name="banner1" value="{{data.banners[0]}}" placeholder="输入URL或上传"/>
+    <input id="J_banner_img1" class="form-control fileinput-input pull-left" type="text" name="banner1" value="{{data.banners[0]|default('http://weishop.zmzp.cn/templates/simple/banner.png')}}" placeholder="输入URL或上传"/>
     <span class="btn pull-right btn-success fileinput-button" data-input="#J_banner_img1">
       <i class="glyphicon glyphicon-plus"></i>
       <span>添加图片</span>
@@ -35,8 +35,8 @@
 </div>
 
 <div class="form-group">
-  <label for="J_simple_company"  class="col-sm-2 control-label">公司名称：</label>
+  <label for="J_simple_slogan"  class="col-sm-2 control-label">可选slogan：</label>
   <div class="col-sm-10">
-    <input id="J_simple_company" class="form-control" type="text" name="company" value="{{data.company}}" placeholder="输入消息描述"/>
+    <input id="J_simple_slogan" class="form-control" type="text" name="slogan" value="{{data.slogan}}" placeholder="输入slogan描述"/>
   </div>
 </div>
