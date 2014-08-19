@@ -48,14 +48,18 @@ function getSuitesAndTemplates(callback){
 **/
 exports.index = function(req, res){
   var page = req.params.page || req.param('page');
+  var creator = req.params.creator || req.param('creator');
   page = Number(page);
   if(isNaN(page) || page < 1){
     page = 1;
   }
   var pageCount = 20;
-  var count;
-  var size;
   
+  var conditionCount = {};
+  var conditionData = {};
+  if(creator){
+    conditionCount.creator = conditionData.creator = creator;
+  }
   getSuitesAndTemplates(function(err, suites, templates){
     if(err){
       req.flash('info', '获取模板和套餐失败');
@@ -69,24 +73,30 @@ exports.index = function(req, res){
     templates.forEach(function(item){
       templatesPool[item._id] = item.name;
     });
-    Shop.find({}, function(err, data){
+    Shop.count(conditionCount, function(err, count){
       if(err){
-        logger.error('店铺列表获取店铺数据失败');
-        req.flash('info', '获取店铺数据出错');
+        logger.error('店铺列表获取店铺个数失败');
+        req.flash('info', '获取店铺个数出错');
         return res.redirect('/admin/error');
       }
-      data.forEach(function(item){
-        item.suiteName = suitesPool[item.suite];
-        item.templateName = templatesPool[item.template];
-      });
-      count = data.length;
-      size = Math.ceil(count/pageCount) || 1;
-      var list = data.slice((page - 1) * pageCount, (page - 1) * pageCount + pageCount);
-      res.render('admin/shop.html', {
-        list: list,
-        page: page,
-        size: size,
-        count: count
+      var size = Math.ceil(count/pageCount) || 1;
+      Shop.find(conditionData, null, {skip:(page - 1) * pageCount, limit: pageCount}, function(err, data){
+        if(err){
+          logger.error('店铺列表获取店铺数据失败');
+          req.flash('info', '获取店铺数据出错');
+          return res.redirect('/admin/error');
+        }
+        data.forEach(function(item){
+          item.suiteName = suitesPool[item.suite];
+          item.templateName = templatesPool[item.template];
+        });
+        data = data.reverse();
+        res.render('admin/shop.html', {
+          list: data,
+          page: page,
+          size: size,
+          count: count
+        });
       });
     });
   });

@@ -19,25 +19,29 @@ exports.index = function(req, res){
     page = 1;
   }
   var pageCount = 20;
-  var count;
   var size;
   
-  Operation.find({}, function(err, data){
+  Operation.count({}, function(err, count){
     if(err){
-      logger.error('操作记录页面，获取操作记录列表失败');
-      req.flash('获取操作记录失败');
+      logger.error('操作记录页面，获取操作记录个数失败');
+      req.flash('info', '获取操作记录个数失败');
       return res.redirect('/admin/error');
     }
-    data = data.reverse();
-    count = data.length;
-    size = Math.ceil(count/pageCount) || 1;
-    var list = data.slice((page - 1) * pageCount, (page - 1) * pageCount + pageCount);
-    res.render('admin/operation.html', {
-      info: req.flash('info'),
-      list: list,
-      page: page,
-      size: size,
-      count: count
+    var size = Math.ceil(count/pageCount) || 1;
+    Operation.find({}, null, {skip: (page - 1) * pageCount, limit: pageCount}, function(err, data){
+      if(err){
+        logger.error('操作记录页面，获取操作记录列表失败');
+        req.flash('获取操作记录失败');
+        return res.redirect('/admin/error');
+      }
+      data = data.reverse();
+      res.render('admin/operation.html', {
+        info: req.flash('info'),
+        list: data,
+        page: page,
+        size: size,
+        count: count
+      });
     });
   });
 }

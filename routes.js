@@ -1,10 +1,9 @@
 'use strict';
-var fs = require('fs');
-var os = require('os');
 var path = require('path');
 var express = require('express');
 var config = require('./config');
 
+var comboController = require('./controller/comboController');
 var frontendController = require('./controller/frontendController');
 var loginController = require('./controller/loginController');
 var adminController = require('./controller/adminController');
@@ -22,52 +21,8 @@ module.exports = function(app){
   app.use('/upload', express.static(path.join(__dirname, 'upload')));
   app.use('/templates', express.static(path.join(__dirname, 'templates')));
   require('nunjucks/src/globals').basepath = "";
-  app.get(['/combo', /\/combo.*/], function(req, res){
-    var url = req.url;
-    url = url.replace(/^\/combo(\/)?/, '');
-    
-    var dir;
-    var files = [];
-    if(url.indexOf("??") !== -1){
-      dir = url.split("??")[0] || "";
-      files = url.split("??")[1].split(",");
-    }else{
-      dir = "";
-      files = [url];
-    }
-    var topDirMap = {
-      "css": __dirname + "/public/css",
-      "js": __dirname + "/public/js",
-      "lib": __dirname + "/public/lib",
-      "templates": __dirname + "/templates"
-    }
-    var filterFiles = [];
-    files.forEach(function(item){
-      item = path.normalize(dir + "/" + item);
-      var splits = item.match(/\/?([^\/]*)\/(.*)/);
-      if(!splits){
-        return;
-      }
-      var topDir = splits[1];
-      var f = splits[2];
-      topDir = topDirMap[topDir];
-      if(!topDir){
-        return;
-      }
-      f = path.normalize(topDir + "/" + f);
-      if(filterFiles.indexOf(f) == -1){
-        filterFiles.push(f);
-      }
-    });
-    var html = []
-    filterFiles.forEach(function(file){
-      try{
-        html.push(fs.readFileSync(file, 'utf-8'));
-      }catch(err){
-      }
-    });
-    res.end(html.join(os.EOL));
-  });
+  
+  app.get(['/combo', /\/combo.*/], comboController.combo);
   
   app.get('/shop/:shop', frontendController.index);
   

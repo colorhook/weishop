@@ -3,7 +3,7 @@
 ## TODO
 
 * <del>mongodb connection failback</del>
-* mongodb connection verification
+* <del>mongodb connection verification</del>
 * <del>global exception catch</del>
 * <del>log write and read</del>
 * <del>business data monitor</del>

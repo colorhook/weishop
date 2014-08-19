@@ -4,7 +4,7 @@
 var mongoose = require('mongoose');
 var logger = require('../lib/logger');
 
-mongoose.connect("mongodb://zmzp.cn/weishop");
+mongoose.connect("mongodb://32like:A1s2d3f4@zmzp.cn/weishop");
 var db = mongoose.connection;
 db.once('open', function(){
   logger.log('database opend');

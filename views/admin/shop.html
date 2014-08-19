@@ -44,6 +44,7 @@
             <th>微信OpenID</th>
             <th>套餐</th>
             <th>模板</th>
+            <th>创建时间</th>
             <th>创建者</th>
             <th>操作</th>
           </tr>
@@ -58,7 +59,10 @@
             <th>{{item.weixinID}}</th>
             <th>{{item.suiteName}}</th>
             <th>{{item.templateName}}</th>
-            <th>{{item.creator}}</th>
+            <th>{{item.time|time}}</th>
+            <th>
+              <a class="creator" data-toggle="tooltip" title="{{item.creator}}创建的店铺" href="/admin/shop?creator={{item.creator}}">{{item.creator}}</a>
+            </th>
             <th>
               {% if admin.role.key >= 1 %}
               <a href="/admin/shop/edit/{{item._id}}">编辑</a>
@@ -113,6 +117,7 @@ $(function(){
     removeModal.find(".id").val($(e.currentTarget).parents('tr').attr('data-id'));
     removeModal.modal();
   });
+  $("a.creator").tooltip();
 });
 </script>
 {% endblock %}
