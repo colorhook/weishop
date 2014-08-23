@@ -51,8 +51,9 @@ ol,ul{list-style:none;border:0;font-size:100%;font:inherit;vertical-align:baseli
 #nav li{display:block;float:left;width: 50%;}
 #nav li a{display: block;margin-right: 0em;padding-top:1em;padding-right:1em}
 */
-#nav ul{padding: 0 1.5em;display:-webkit-box}
-#nav li{display:block;-webkit-box-flex:1}
+#nav ul{width:100%;}
+#nav li{display:block;width:28%;float:left}
+#nav li:first-child{margin-left:8%}
 #nav li a{display:block;}
 #nav li img{display:block;width:100%}
 #info{padding-top:20px;padding-bottom:60px;line-height: 2em;text-align: center;color: #333}
